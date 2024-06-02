@@ -27,8 +27,49 @@
                 margin: 0;
                 display: flex; /* Flexbox 사용 */
                 flex-direction: column; /* 수직 방향으로 정렬 */
+                justify-content: center;
                 height: 90%; /* 화면 높이를 채우기 위해 최소 높이 설정 */
                 background-color: rgb(214, 214, 214); /* 배경색 설정 */
+            }
+            
+            .guideSection{
+                display: flex;
+                flex-direction: column;
+                /* justify-content: space-around; */
+                
+                border-radius: 20px;
+                height: 90%;
+                margin: 5%;
+                background-image: url(../media/background_guidePage.png);
+            }
+            .one{
+                font-size: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 5px solid red;
+                flex-grow: 1;
+            }
+            .two{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 5px solid blue;
+                flex-grow: 1;
+            }
+            .three{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 5px solid green;
+                flex-grow: 1;
+            }
+            .four{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 5px solid darkgoldenrod;
+                flex-grow: 1;
             }
 
             footer{
@@ -56,6 +97,12 @@
             심정지 환자 발생시 메뉴얼
         </header>
         <main>
+            <section class="guideSection">
+                <div class="one">깨우기</div>
+                <div class="two"><img src="../media/icon_redo.png" style="width: 80%;"></div>
+                <div class="three">asd</div>
+                <div class="four"><button>완료</button></div>
+            </section>
         </main>
         <footer>
             <p>긴급 연락처: 119 | 경찰서: 112 | 의료 긴급 상황: 1339</p>
