@@ -14,25 +14,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                
                 flex-grow: 1;
-            }
-            .explanation{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-size: 25px;
-                flex-grow: 1;
-            }
-            .button{
-                display: flex;
-                justify-content: space-evenly;
-                align-items: center;
-                flex-grow: 1;
-            }
-
-            .button a{
-                font-size: 20px;
             }
 
             .button_next{
@@ -44,13 +26,13 @@
                 font-size: 10px;
                 color: white;
                 text-decoration: none;
-                background-color: #FF0000; /* 버튼의 배경색 */
+                background-color: #E43A3A; /* 버튼의 배경색 */
                 border-radius: 20px; /* 모서리 둥글게 */
                 transition: background-color 0.3s ease;
             }
 
             .button_next:hover {
-                background-color: #D00000; /* 호버 시 버튼 배경색 */
+                background-color: #B62E2E; /* 호버 시 버튼 배경색 */
             }
 
             .button_prev{
@@ -83,20 +65,25 @@
         </header>
         <main>
             <section class="guideSection">
-                <div class="title">
+                <div class="guideTitle">
                     <div class="titleHome"><a href="mainPage.html"><img src="../media/icon_home.png" width="30px"></a></div>
                     <div class="titleText">의식 확인</div>
                     <div class="titleEmpty"></div>
                 </div>
-                <div class="image"><img src="../media/icon_check.png" style="width: 80%;"></div>
-                <div class="explanation">환자를 흔들어 의식이 있는지 확인합니다</div>
-                <div class="button">
+
+                <div class="guideContent">
+                    <div class="nonExplanation">
+                        <div class="image"><img src="../media/icon_check.png" style="width: 80%;"></div>
+                    </div>
+                    <div class="explanation">환자를 흔들어 의식이 있는지 확인합니다</div>
+                </div>
+                <div class="guideButton">
                     <a href="guidePage_2.html" class="button_next">다음</a>
                 </div>
             </section>
         </main>
         <footer>
-            <p>긴급 연락처: 119 | 의료 긴급 상황: 1339</p>
+            <p>긴급 연락처: <a href='tel:119'>119</a> | 의료 긴급 상황: <a href='tel:1339'>1339</a></p>
         </footer>
     </body>
 </html>

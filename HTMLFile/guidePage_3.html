@@ -7,6 +7,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="../CSSFile/semantics.css">
         <link rel="stylesheet" href="../CSSFile/guidePage.css">
+        <link rel="stylesheet" href="../CSSFile/nowLocation.css">
         <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
         <title>Document</title>
         <style>
@@ -14,7 +15,6 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                
                 flex-grow: 1;
             }
 
@@ -22,11 +22,29 @@
                 display: flex;
                 justify-content: space-evenly;
                 align-items: center;
-                flex-grow: 1;
+                height: 20%;
             }
 
             .button a{
                 font-size: 20px;
+            }
+
+            .buttonAEDPos{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 80%;
+                width: 100%;
+                font-size: 60px;
+                color: white;
+                text-decoration: none;
+                background-color: #E43A3A; /* 버튼의 배경색 */
+                border-radius: 20px; /* 모서리 둥글게 */
+                transition: background-color 0.3s ease;
+            }
+
+            .buttonAEDPos:hover {
+                background-color: #B62E2E; /* 호버 시 버튼 배경색 */
             }
 
             .button_next{
@@ -64,10 +82,7 @@
             .button_prev:hover {
                 background-color: gray; /* 호버 시 버튼 배경색 */
             }
-
-            .button_next:hover {
-                background-color: #D00000; /* 호버 시 버튼 배경색 */
-            }
+            
         </style>
     </head>
     <body>
@@ -78,20 +93,25 @@
             <section class="guideSection">
                 <div class="guideTitle">
                     <div class="titleHome"><a href="mainPage.html"><img src="../media/icon_home.png" width="30px"></a></div>
-                    <div class="titleText">AED 사용</div>
+                    <div class="titleText">AED 찾기</div>
                     <div class="titleEmpty"></div>
                 </div>
 
                 <div class="guideContent">
                     <div class="nonExplanation">
-                        <div class="image"><img src="../media/icon_AED.png" style="width: 80%;"></div>
+                        <div class="image">
+                            <a class="buttonAEDPos" href="#">
+                                AED 위치 탐색
+                            </a>
+                        </div>
                     </div>
-                    <div class="explanation">AED를 사용한 후 다시 심폐소생술을 반복합니다</div>
+                
+                    <div class="explanation">근처에 사람이 있다면 AED를 가져와달라 합니다</div>
                 </div>
-
+            
                 <div class="guideButton">
-                    <a href="guidePage_4.html" class="button_prev">이전</a>
-                    <a href="mainPage.html" class="button_next">종료</a>
+                    <a href="guidePage_2.html" class="button_prev">이전</a>
+                    <a href="guidePage_4.html" class="button_next">다음</a>
                 </div>
             </section>
         </main>
