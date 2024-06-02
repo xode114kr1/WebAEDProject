@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            body{
+                display: flex;
+                flex-direction: column;
+                margin: 0;
+                height: 100vh;
+            }
+
+            header{
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: rgb(255, 102, 102);
+                height: 5%;
+                font-size: 20px;
+                color: aliceblue;
+            }
+
+            main {
+                margin: 0;
+                display: flex; /* Flexbox 사용 */
+                flex-direction: column; /* 수직 방향으로 정렬 */
+                height: 90%; /* 화면 높이를 채우기 위해 최소 높이 설정 */
+                background-color: rgb(214, 214, 214); /* 배경색 설정 */
+            }
+
+            .location{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 15%;
+            }
+            
+            .locationSection {
+                width: 90%;
+                max-width: 600px;
+                border: 2px solid black;
+                border-radius: 5px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                background-color: white;
+            }
+
+            .locationSectionText{
+                font-size: 17px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 10%;
+            }
+
+            .locationSectionLocation{
+                border-radius: 10px; /* 테두리 더 둥글게 만들기 */
+                background-color: white;
+                width: 60%;
+                padding: 5px;
+                word-wrap: break-word; /* 단어 줄바꿈 설정 */
+                white-space: normal; /* 텍스트 줄바꿈 허용 */
+            }
+
+            .locationSectionIcon{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 10%;
+            }
+
+            .buttonSection{
+                height: 85%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around; /* 공간을 균등하게 분배 */
+            }
+
+            .button_link{
+                height: 40%;
+                margin: 20px;
+                padding: 10px;
+                font-size: 16px;
+                color: white;
+                background-color: #FF0000; /* 버튼의 배경색 */
+                text-align: center;
+                text-decoration: none;
+                border-radius: 20px; /* 모서리 둥글게 */
+                transition: background-color 0.3s ease;
+            }
+
+            .button_link:hover {
+                background-color: #D00000; /* 호버 시 버튼 배경색 */
+            }
+
+            footer{
+                background-color: rgb(255, 102, 102);
+                color: white;
+                font-size: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 5%;
+            }
+
+            @media (min-width: 600px) {
+                body {
+                    margin: 0 auto;
+                    max-width: 600px;
+                }
+            }
+
+        </style>
+    </head>
+    <body>
+        <header>
+            심정지 환자 발생시 메뉴얼
+        </header>
+        <main>
+            <section class="location">
+                <div class="locationSection">
+                    <div class="locationSectionText">위치</div>
+                    <div class="locationSectionLocation">asd</div>
+                    <div class="locationSectionIcon"><img src="../media/icon_redo.png" width="20px"></div>
+                </div>
+            </section>
+            <section class="buttonSection">
+                <a href="#", class="button_link">
+                    <img src="../media/icon_redo.png" height="80%"><br>
+                    <span style="font-size: 30px;">가이드 라인</span>
+                </a>
+                <a href="#", class="button_link">
+                    <img src="../media/icon_redo.png" height="80%"><br>
+                    <span style="font-size: 30px;">AED 위치 찾기</span>
+                </a>
+            </section>
+            <footer>
+                <p>긴급 연락처: 119 | 경찰서: 112 | 의료 긴급 상황: 1339</p>
+            </footer>
+        </main>
+    </body>
+</html>
