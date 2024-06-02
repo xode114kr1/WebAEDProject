@@ -1,0 +1,50 @@
+* {
+    font-family: "Jua", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    height: 100vh;
+}
+
+header{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 102, 102);
+    height: 5%;
+    font-size: 25px;
+    color: aliceblue;
+}
+
+main {
+    margin: 0;
+    display: flex; /* Flexbox 사용 */
+    flex-direction: column; /* 수직 방향으로 정렬 */
+    justify-content: center;
+    height: 90%; /* 화면 높이를 채우기 위해 최소 높이 설정 */
+    background-color: rgb(214, 214, 214); /* 배경색 설정 */
+}
+
+footer{
+    background-color: rgb(255, 102, 102);
+    color: white;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 5%;
+}
+
+@media (min-width: 600px) {
+    body {
+        margin: 0 auto;
+        max-width: 600px;
+    }
+}
