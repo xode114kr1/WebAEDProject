@@ -78,19 +78,7 @@
         };
         const map = new kakao.maps.Map(container, options); //지도 생성 
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const lat = position.coords.latitude; // 위도
-                const lng = position.coords.longitude; // 경도
-
-                const centerPosition = new kakao.maps.LatLng(lat, lng); // 현재 위치 좌표로 센터 설정
-                map.setCenter(centerPosition);
-            }, function() {
-                console.error('Error: The Geolocation service failed.');
-            });
-        } else {
-            console.error('Error: Your browser doesn\'t support geolocation.');
-        }
+        getCurrentLocation();
         
         const infowindow = new kakao.maps.InfoWindow({zIndex: 1}); //인포윈도우 생성
 
@@ -133,5 +121,7 @@
                 console.error('Error fetching XML data:', error);
             });
     </script>
+
+    <script src="get_maps.js"></script>
 </body>
 </html>
