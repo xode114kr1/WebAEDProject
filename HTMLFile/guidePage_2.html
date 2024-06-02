@@ -7,6 +7,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link rel="stylesheet" href="../CSSFile/semantics.css">
         <link rel="stylesheet" href="../CSSFile/guidePage.css">
+        <link rel="stylesheet" href="../CSSFile/nowLocation.css">
         <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
         <title>Document</title>
         <style>
@@ -17,13 +18,15 @@
                 
                 flex-grow: 1;
             }
-            .explanatione{
+
+            .explanation{
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 font-size: 25px;
                 flex-grow: 1;
             }
+
             .button{
                 display: flex;
                 justify-content: space-evenly;
@@ -87,8 +90,19 @@
                     <div class="titleText">119 신고</div>
                     <div class="titleEmpty"></div>
                 </div>
+
+                <div class="location">
+                    <div class="locationSection">
+                        <div class="locationSectionText">위치</div>
+                        <div class="locationSectionLocation" id="locationSectionLocation"></div>
+                        <div class="locationSectionIcon"><img src="../media/icon_redo.png" width="20px"></div>
+                    </div>
+                </div>
+
                 <div class="image"><img src="../media/icon_check.png" style="width: 80%;"></div>
-                <div class="explanatione">반응이 없다면 119에 신고합니다</div>
+
+                <div class="explanation">반응이 없다면 119에 신고합니다</div>
+
                 <div class="button">
                     <a href="guidePage_1.html" class="button_prev">이전</a>
                     <a href="#" class="button_next">다음</a>

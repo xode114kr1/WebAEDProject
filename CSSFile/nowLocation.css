@@ -1,0 +1,44 @@
+.location{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 15%;
+}
+
+.locationSection {
+    width: 90%;
+    height: 30%;
+    max-width: 600px;
+    border: 2px solid black;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+}
+
+.locationSectionText{
+    font-size: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+}
+
+.locationSectionLocation{
+    border-radius: 10px; /* 테두리 더 둥글게 만들기 */
+    background-color: white;
+    width: 60%;
+    padding: 5px;
+    word-wrap: break-word; /* 단어 줄바꿈 설정 */
+    white-space: normal; /* 텍스트 줄바꿈 허용 */
+}
+
+.locationSectionIcon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+}
