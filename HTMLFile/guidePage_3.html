@@ -18,15 +18,6 @@
                 flex-grow: 1;
             }
 
-            .explanation{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-                font-size: 25px;
-                flex-grow: 1;
-            }
-
             .button{
                 display: flex;
                 justify-content: space-evenly;
@@ -36,6 +27,24 @@
 
             .button a{
                 font-size: 20px;
+            }
+
+            .buttonAEDPos{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 80%;
+                width: 100%;
+                font-size: 60px;
+                color: white;
+                text-decoration: none;
+                background-color: #E43A3A; /* 버튼의 배경색 */
+                border-radius: 20px; /* 모서리 둥글게 */
+                transition: background-color 0.3s ease;
+            }
+
+            .buttonAEDPos:hover {
+                background-color: #B62E2E; /* 호버 시 버튼 배경색 */
             }
 
             .button_next{
@@ -73,10 +82,7 @@
             .button_prev:hover {
                 background-color: gray; /* 호버 시 버튼 배경색 */
             }
-
-            .button_next:hover {
-                background-color: #D00000; /* 호버 시 버튼 배경색 */
-            }
+            
         </style>
     </head>
     <body>
@@ -87,11 +93,19 @@
             <section class="guideSection">
                 <div class="guideTitle">
                     <div class="titleHome"><a href="mainPage.html"><img src="../media/icon_home.png" width="30px"></a></div>
-                    <div class="titleText">AED위치 찾기</div>
+                    <div class="titleText">AED 찾기</div>
                     <div class="titleEmpty"></div>
                 </div>
+
                 <div class="guideContent">
-                    <div><a href="#">AED위치 탐색 시작</a></div>
+                    <div class="nonExplanation">
+                        <div class="image">
+                            <a class="buttonAEDPos" href="#">
+                                AED 위치 탐색
+                            </a>
+                        </div>
+                    </div>
+                
                     <div class="explanation">근처에 사람이 있다면 AED를 가져와달라 합니다</div>
                 </div>
             

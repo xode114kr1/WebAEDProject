@@ -18,15 +18,6 @@
                 flex-grow: 1;
             }
 
-            .explanation{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-                font-size: 25px;
-                flex-grow: 1;
-            }
-
             .button{
                 display: flex;
                 justify-content: space-evenly;
@@ -36,6 +27,24 @@
 
             .button a{
                 font-size: 20px;
+            }
+
+            .button119{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 80%;
+                width: 100%;
+                font-size: 60px;
+                color: white;
+                text-decoration: none;
+                background-color: #E43A3A; /* 버튼의 배경색 */
+                border-radius: 20px; /* 모서리 둥글게 */
+                transition: background-color 0.3s ease;
+            }
+
+            .button119:hover {
+                background-color: #B62E2E; /* 호버 시 버튼 배경색 */
             }
 
             .button_next{
@@ -74,9 +83,6 @@
                 background-color: gray; /* 호버 시 버튼 배경색 */
             }
 
-            .button_next:hover {
-                background-color: #D00000; /* 호버 시 버튼 배경색 */
-            }
         </style>
     </head>
     <body>
@@ -91,16 +97,21 @@
                     <div class="titleEmpty"></div>
                 </div>
                 <div class="guideContent">
-                    <div class="location">
-                        <div class="locationSection">
-                            <div class="locationSectionText">위치</div>
-                            <div class="locationSectionLocation" id="locationSectionLocation"></div>
-                            <div class="locationSectionIcon"><img src="../media/icon_redo.png" width="20px"></div>
+                    <div class="nonExplanation">
+                        <div class="location">
+                            <div class="locationSection">
+                                <div class="locationSectionText">위치</div>
+                                <div class="locationSectionLocation" id="locationSectionLocation"></div>
+                                <div class="locationSectionIcon"><img src="../media/icon_redo.png" width="20px"></div>
+                            </div>
+                        </div>
+
+                        <div class="image">
+                            <a class="button119" href="tel:119">
+                                신고하기
+                            </a>
                         </div>
                     </div>
-
-                    <div class="image"><img src="../media/icon_check.png" style="width: 80%;"></div>
-
                     <div class="explanation">반응이 없다면 119에 신고합니다</div>
                 </div>
             
