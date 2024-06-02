@@ -22,8 +22,8 @@ function getAddr(lat, lng) {
 function getLocation() {
     if (navigator.geolocation) { 
         navigator.geolocation.getCurrentPosition(function(position) {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
+            lat = position.coords.latitude;
+            lng = position.coords.longitude;
             getAddr(lat, lng);
         }, function(error) {
             console.error('Error:', error);
