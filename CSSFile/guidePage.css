@@ -39,12 +39,30 @@
 }
 
 .guideContent{
-    
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: 70%;
 }
+
+.nonExplanation{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80%;
+}
+
+.explanation{
+    background-color: white;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 25px;
+    height: 20%;
+}
+
 
 .guideButton{
     display: flex;
