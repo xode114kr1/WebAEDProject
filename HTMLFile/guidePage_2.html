@@ -29,6 +29,24 @@
                 font-size: 20px;
             }
 
+            .button119{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 80%;
+                width: 100%;
+                font-size: 60px;
+                color: white;
+                text-decoration: none;
+                background-color: #E43A3A; /* 버튼의 배경색 */
+                border-radius: 20px; /* 모서리 둥글게 */
+                transition: background-color 0.3s ease;
+            }
+
+            .button119:hover {
+                background-color: #B62E2E; /* 호버 시 버튼 배경색 */
+            }
+
             .button_next{
                 display: flex;
                 align-items: center;
@@ -65,9 +83,6 @@
                 background-color: gray; /* 호버 시 버튼 배경색 */
             }
 
-            .button_next:hover {
-                background-color: #D00000; /* 호버 시 버튼 배경색 */
-            }
         </style>
     </head>
     <body>
@@ -91,7 +106,11 @@
                             </div>
                         </div>
 
-                        <div class="image"><img src="../media/icon_check.png" style="width: 80%;"></div>
+                        <div class="image">
+                            <a class="button119" href="tel:119">
+                                신고하기
+                            </a>
+                        </div>
                     </div>
                     <div class="explanation">반응이 없다면 119에 신고합니다</div>
                 </div>
