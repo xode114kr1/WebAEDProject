@@ -72,6 +72,24 @@
                 flex-grow: 1;
             }
 
+            .button_link{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 60%;
+                height: 60%;
+                font-size: 16px;
+                color: white;
+                text-decoration: none;
+                background-color: #FF0000; /* 버튼의 배경색 */
+                border-radius: 20px; /* 모서리 둥글게 */
+                transition: background-color 0.3s ease;
+            }
+
+            .button_link:hover {
+                background-color: #D00000; /* 호버 시 버튼 배경색 */
+            }
+
             footer{
                 background-color: rgb(255, 102, 102);
                 color: white;
@@ -100,8 +118,10 @@
             <section class="guideSection">
                 <div class="one">깨우기</div>
                 <div class="two"><img src="../media/icon_redo.png" style="width: 80%;"></div>
-                <div class="three">asd</div>
-                <div class="four"><button>완료</button></div>
+                <div class="three">환자를 흔들어 보세요</div>
+                <div class="four">
+                    <a href="#" class="button_link">다음</a>
+                </div>
             </section>
         </main>
         <footer>
