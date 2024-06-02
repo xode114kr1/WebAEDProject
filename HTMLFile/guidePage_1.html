@@ -36,7 +36,7 @@
                 display: flex;
                 flex-direction: column;
                 /* justify-content: space-around; */
-                
+                padding: 5%;
                 border-radius: 20px;
                 height: 90%;
                 margin: 5%;
@@ -52,15 +52,14 @@
 
             .titleHome{
                 width: 20%;
-                
-                justify-content: center;
+                justify-content: start;
                 align-items: center;
                 display: flex;
                 flex-grow: 1;
             }
             .titleText{
                 width: 60%;
-                font-size: 50px;
+                font-size: 30px;
                 justify-content: center;
                 align-items: center;
                 
@@ -86,27 +85,26 @@
                 justify-content: center;
                 align-items: center;
                 font-size: 25px;
-                
                 flex-grow: 1;
             }
             .four{
                 display: flex;
-                justify-content: center;
+                justify-content: space-evenly;
                 align-items: center;
                 flex-grow: 1;
             }
 
             .four a{
-                font-size: 30px;
+                font-size: 20px;
             }
 
-            .button_link{
+            .button_next{
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 width: 60%;
                 height: 60%;
-                font-size: 16px;
+                font-size: 10px;
                 color: white;
                 text-decoration: none;
                 background-color: #FF0000; /* 버튼의 배경색 */
@@ -114,7 +112,29 @@
                 transition: background-color 0.3s ease;
             }
 
-            .button_link:hover {
+            .button_next:hover {
+                background-color: #D00000; /* 호버 시 버튼 배경색 */
+            }
+
+            .button_prev{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 15%;
+                height: 60%;
+                font-size: 10px;
+                color: white;
+                text-decoration: none;
+                background-color: rgb(180, 180, 180); /* 버튼의 배경색 */
+                border-radius: 20px; /* 모서리 둥글게 */
+                transition: background-color 0.3s ease;
+            }
+
+            .button_prev:hover {
+                background-color: gray; /* 호버 시 버튼 배경색 */
+            }
+
+            .button_next:hover {
                 background-color: #D00000; /* 호버 시 버튼 배경색 */
             }
 
@@ -145,14 +165,15 @@
         <main>
             <section class="guideSection">
                 <div class="title">
-                    <div class="titleHome"><a href="mainPage.html">asd</a></div>
+                    <div class="titleHome"><a href="mainPage.html"><img src="../media/icon_home.png" width="30px"></a></div>
                     <div class="titleText">의식 확인</div>
                     <div class="titleEmpty"></div>
                 </div>
                 <div class="two"><img src="../media/icon_check.png" style="width: 80%;"></div>
                 <div class="three">환자를 흔들어 의식이 있는지 확인해 보세요</div>
                 <div class="four">
-                    <a href="#" class="button_link">다음</a>
+                    <a href="#" class="button_prev">이전</a>
+                    <a href="#" class="button_next">다음</a>
                 </div>
             </section>
         </main>
