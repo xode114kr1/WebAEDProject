@@ -24,6 +24,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
     width: 10%;
 }
 
