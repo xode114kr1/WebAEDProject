@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="../CSSFile/semantics.css">
+        <link rel="stylesheet" href="../CSSFile/guidePage.css">
+        <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+        <title>Document</title>
+        <style>
+            .image{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+                flex-grow: 1;
+            }
+            .explanatione{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                font-size: 25px;
+                flex-grow: 1;
+            }
+            .button{
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                flex-grow: 1;
+            }
+
+            .button a{
+                font-size: 20px;
+            }
+
+            .button_next{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 60%;
+                height: 60%;
+                font-size: 10px;
+                color: white;
+                text-decoration: none;
+                background-color: #E43A3A; /* 버튼의 배경색 */
+                border-radius: 20px; /* 모서리 둥글게 */
+                transition: background-color 0.3s ease;
+            }
+
+            .button_next:hover {
+                background-color: #B62E2E; /* 호버 시 버튼 배경색 */
+            }
+
+            .button_prev{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 30%;
+                height: 60%;
+                font-size: 10px;
+                color: white;
+                text-decoration: none;
+                background-color: rgb(180, 180, 180); /* 버튼의 배경색 */
+                border-radius: 20px; /* 모서리 둥글게 */
+                transition: background-color 0.3s ease;
+            }
+
+            .button_prev:hover {
+                background-color: gray; /* 호버 시 버튼 배경색 */
+            }
+
+            .button_next:hover {
+                background-color: #D00000; /* 호버 시 버튼 배경색 */
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            심정지 환자 발생시 메뉴얼
+        </header>
+        <main>
+            <section class="guideSection">
+                <div class="guideTitle">
+                    <div class="titleHome"><a href="mainPage.html"><img src="../media/icon_home.png" width="30px"></a></div>
+                    <div class="titleText">AED 사용</div>
+                    <div class="titleEmpty"></div>
+                </div>
+
+                <div class="guideContent">
+                    <div class="image"><img src="../media/icon_AED.png" style="width: 80%;"></div>
+                    <div class="explanatione">AED를 사용한 후<br>다시 심폐소생술을 반복합니다</div>
+                </div>
+                
+                <div class="guideButton">
+                    <a href="guidePage_4.html" class="button_prev">돌아가기</a>
+                    <a href="guidePage_5.html" class="button_next">다음 단계</a>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <p>긴급 연락처: <a href='tel:119'>119</a> | 의료 긴급 상황: <a href='tel:1339'>1339</a></p>
+        </footer>
+    </body>
+</html>
