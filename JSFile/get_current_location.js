@@ -70,3 +70,4 @@ handleUserLocation()
         console.error('Error:', error);
         alert(error);
     });
+

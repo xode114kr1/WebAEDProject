@@ -5,10 +5,10 @@ function getCurrentLocation() {
         .then(userLocation => {
             const lat = userLocation.lat; // get_current_location.js에서 받은 위도
             const lng = userLocation.lng; // get_current_location.js에서 받은 경도
-            var moveLatLon = new kakao.maps.LatLng(lat, lng);
+            var moveLatLng = new kakao.maps.LatLng(lat, lng);
         
             // 지도 중심을 이동 시킵니다
-            map.setCenter(moveLatLon);
+            map.setCenter(moveLatLng);
         })
         .catch(error => {
             alert(error);

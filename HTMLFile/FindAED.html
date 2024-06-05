@@ -121,18 +121,22 @@
                 const xmlDoc = parser.parseFromString(data, 'text/xml');
                 const items = xmlDoc.getElementsByTagName('item');
 
+                const radius = 3000;
                 for (let i = 0; i < items.length; i++) {
+
                     const addrs = items[i].getElementsByTagName('addrs')[0].textContent;
                     const geom = items[i].getElementsByTagName('geom')[0].textContent;
                     const [longitude, latitude] = geom.replace('POINT(', '').replace(')', '').split(' ');
-
+                    
                     // 마커 생성 및 지도에 추가
                     const markerPosition = new kakao.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
-                    const marker = new kakao.maps.Marker({
-                        position: markerPosition
-                    });
+                    const distance = kakao.maps.geometry.spherical.computeDistanceBetween(userLocartion, markerPosition);
+                    if (distance <= radius) {
+                        const marker = new kakao.maps.Marker({
+                            position: markerPosition
+                        });
                     marker.setMap(map);
-
+                    }
                     // 마커에 클릭 이벤트 등록
                     kakao.maps.event.addListener(marker, 'click', function() {
                         if (customOverlay) {
