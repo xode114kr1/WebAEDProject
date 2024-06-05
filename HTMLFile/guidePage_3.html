@@ -20,11 +20,12 @@
             
             .buttonAEDPos{
                 display: flex;
+                flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 height: 80%;
                 width: 100%;
-                font-size: 60px;
+                font-size: 40px;
                 color: white;
                 text-decoration: none;
                 background-color: #E43A3A; /* 버튼의 배경색 */
@@ -34,7 +35,8 @@
 
             .buttonAEDPos:hover {
                 background-color: #B62E2E; /* 호버 시 버튼 배경색 */
-            }            
+            }
+            
         </style>
     </head>
     <body>
@@ -52,8 +54,9 @@
                 <div class="guideContent">
                     <div class="nonExplanation">
                         <div class="image">
-                            <a class="buttonAEDPos" style="text-align: center;" href="#">
-                                AED 위치 <br>탐색
+                            <a class="buttonAEDPos" href="#">
+                                <img src="../media/icon_map.png" width="50%">
+                                AED 탐색
                             </a>
                         </div>
                     </div>
