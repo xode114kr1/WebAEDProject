@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FindAED</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <style>
+        * {
+            font-family: "Jua", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+        
         #map {
             width: auto;
             flex-grow: 1;
@@ -83,9 +92,10 @@
         <div id="map"></div>
     </main>
     <footer>
-        <p>긴급 연락처: 119 | 의료 긴급 상황: 1339</p>
+        <p>긴급 연락처: <a href='tel:119'>119</a> | 의료 긴급 상황: <a href='tel:1339'>1339</a></p>
     </footer>
-
+    <script src="../JSFile/get_current_location.js"></script>
+    <script src="../JSFile/get_maps.js"></script>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=047d2413f56196438f508d6b496dd9ed&libraries=services"></script>
     <script>
         const xmlDataUrl = 'https://apis.data.go.kr/6260000/BusanAedsService/getAedsList?serviceKey=X8s%2BvuX0%2F3WxkVikH1ZCFuWcowECbvxJ%2FTUSmNA3uHCkErHNm15tHPUXOyd7gxmDw1wIJEBisOCb%2B2XaNsAOCg%3D%3D&pageNo=1&numOfRows=1079'; // 여기에 API 주소를 입력하세요.
@@ -100,8 +110,6 @@
 
         getCurrentLocation();
         
-        const infowindow = new kakao.maps.InfoWindow({zIndex: 1}); //인포윈도우 생성
-
         // 커스텀 오버레이를 담을 변수
         let customOverlay = null;
 
@@ -153,6 +161,6 @@
             });
     </script>
 
-    <script src="get_maps.js"></script>
+
 </body>
 </html>
