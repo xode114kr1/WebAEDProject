@@ -94,77 +94,122 @@
     <footer>
         <p>긴급 연락처: <a href='tel:119'>119</a> | 의료 긴급 상황: <a href='tel:1339'>1339</a></p>
     </footer>
-    <script src="../JSFile/get_current_location.js"></script>
-    <script src="../JSFile/get_maps.js"></script>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=047d2413f56196438f508d6b496dd9ed&libraries=services"></script>
     <script>
-        const xmlDataUrl = 'https://apis.data.go.kr/6260000/BusanAedsService/getAedsList?serviceKey=X8s%2BvuX0%2F3WxkVikH1ZCFuWcowECbvxJ%2FTUSmNA3uHCkErHNm15tHPUXOyd7gxmDw1wIJEBisOCb%2B2XaNsAOCg%3D%3D&pageNo=1&numOfRows=1079'; // 여기에 API 주소를 입력하세요.
+        function currentLocation(callback) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const userLat = position.coords.latitude;
+                    const userLng = position.coords.longitude;
+                    const userPosition = new kakao.maps.LatLng(userLat, userLng);
+                    callback(userPosition);
+                }, error => {
+                    console.error('Error fetching user location:', error);
+                });
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+            }
+        }
 
-        // 카카오맵 로드 및 지도 생성
-        const container = document.getElementById('map');
-        const options = {
-            center: new kakao.maps.LatLng(35.179816, 129.075075), // 기본 위치 설정
-            level: 3 // 확대 수준 설정
-        };
-        const map = new kakao.maps.Map(container, options); //지도 생성 
+        function initializeMap() {
+            const xmlDataUrl = 'https://apis.data.go.kr/6260000/BusanAedsService/getAedsList?serviceKey=X8s%2BvuX0%2F3WxkVikH1ZCFuWcowECbvxJ%2FTUSmNA3uHCkErHNm15tHPUXOyd7gxmDw1wIJEBisOCb%2B2XaNsAOCg%3D%3D&pageNo=1&numOfRows=1079';
 
-        getCurrentLocation();
-        
-        // 커스텀 오버레이를 담을 변수
-        let customOverlay = null;
+            const container = document.getElementById('map');
+            const options = {
+                center: new kakao.maps.LatLng(35.179816, 129.075075),
+                level: 3
+            };
+            const map = new kakao.maps.Map(container, options);
+            
 
-        // XML 데이터 가져오기
-        fetch(xmlDataUrl)
-            .then(response => response.text())
-            .then(data => {
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(data, 'text/xml');
-                const items = xmlDoc.getElementsByTagName('item');
+            currentLocation(userPosition => {
+                // 지도 중심 내위치, 마커 띄우기
+                map.setCenter(userPosition);
+                var marker = new kakao.maps.Marker({position : userPosition});
+                marker.setMap(map);
 
-                const radius = 3000;
-                for (let i = 0; i < items.length; i++) {
+                fetch(xmlDataUrl)
+                    .then(response => response.text())
+                    .then(data => {
+                        const parser = new DOMParser();
+                        const xmlDoc = parser.parseFromString(data, 'text/xml');
+                        const items = xmlDoc.getElementsByTagName('item');
 
-                    const addrs = items[i].getElementsByTagName('addrs')[0].textContent;
-                    const geom = items[i].getElementsByTagName('geom')[0].textContent;
-                    const [longitude, latitude] = geom.replace('POINT(', '').replace(')', '').split(' ');
-                    
-                    // 마커 생성 및 지도에 추가
-                    const markerPosition = new kakao.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
-                    const distance = kakao.maps.geometry.spherical.computeDistanceBetween(userLocartion, markerPosition);
-                    if (distance <= radius) {
-                        const marker = new kakao.maps.Marker({
-                            position: markerPosition
-                        });
-                    marker.setMap(map);
-                    }
-                    // 마커에 클릭 이벤트 등록
-                    kakao.maps.event.addListener(marker, 'click', function() {
-                        if (customOverlay) {
-                            customOverlay.setMap(null); // 기존 오버레이 제거
+                        const radius = 500; // 400m 반경
+
+                        let closestAED = null;
+                        let minDistance = radius;
+
+                        for (let i = 0; i < items.length; i++) {
+                            const addrs = items[i].getElementsByTagName('addrs')[0].textContent;
+                            const geom = items[i].getElementsByTagName('geom')[0].textContent;
+                            const [longitude, latitude] = geom.replace('POINT(', '').replace(')', '').split(' ');
+
+                            const markerPosition = new kakao.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
+
+                            const distance = getDistance(userPosition, markerPosition);
+                            if (distance <= minDistance) {
+                                minDistance = distance;
+                                closestAED = {
+                                    position: markerPosition,
+                                    address: addrs
+                                };
+                            }
                         }
 
-                        // 커스텀 오버레이 생성
-                        const content = `
-                            <div class="customoverlay">
-                                <span class="title">${addrs}</span>
-                            </div>
-                        `;
+                        if (closestAED) {
+                            const marker = new kakao.maps.Marker({
+                                position: closestAED.position
+                            });
+                            marker.setMap(map);
 
-                        customOverlay = new kakao.maps.CustomOverlay({
-                            content: content,
-                            map: map,
-                            position: marker.getPosition()
-                        });
+                            let customOverlay = null;
+                            kakao.maps.event.addListener(marker, 'click', function() {
+                                if (customOverlay) {
+                                    customOverlay.setMap(null);
+                                }
 
-                        customOverlay.setMap(map);
+                                const content = `
+                                    <div class="customoverlay">
+                                        <span class="title">${closestAED.address}</span>
+                                    </div>
+                                `;
+
+                                customOverlay = new kakao.maps.CustomOverlay({
+                                    content: content,
+                                    map: map,
+                                    position: marker.getPosition()
+                                });
+
+                                customOverlay.setMap(map);
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('XML 데이터 가져오는 중 오류 발생:', error);
                     });
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching XML data:', error);
             });
+        }
+
+        // 페이지가 로드되면 초기화 함수 호출
+        window.onload = initializeMap;
+
+        // 하버사인 공식을 사용하여 두 좌표 간의 거리 계산
+        function getDistance(latlng1, latlng2) {
+            const R = 6371e3; // 지구의 반경 (미터 단위)
+            const lat1 = latlng1.getLat() * Math.PI / 180; // 위도를 라디안으로 변환
+            const lat2 = latlng2.getLat() * Math.PI / 180; // 위도를 라디안으로 변환
+            const deltaLat = (latlng2.getLat() - latlng1.getLat()) * Math.PI / 180; // 위도 차이
+            const deltaLng = (latlng2.getLng() - latlng1.getLng()) * Math.PI / 180; // 경도 차이
+
+            const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                    Math.cos(lat1) * Math.cos(lat2) *
+                    Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+            const distance = R * c; // 두 좌표 간의 거리 (미터 단위)
+            return distance;
+        }
     </script>
-
-
 </body>
 </html>
