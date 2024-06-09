@@ -115,27 +115,6 @@
                     <button id="close-button">닫기</button>
                 </div>
             </section>
-            <audio id="audio" src="your-audio-file.mp3"></audio>
-
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    const showButton = document.getElementById('show-button');
-                    const closeButton = document.getElementById('close-button');
-                    const manual = document.getElementById('manual');
-                    const audio = document.getElementById('audio');
-
-                    showButton.addEventListener('click', () => {
-                        manual.classList.add('active');
-                        audio.play();
-                    });
-
-                    closeButton.addEventListener('click', () => {
-                        manual.classList.remove('active');
-                        audio.pause();
-                        audio.currentTime = 0;
-                    });
-                });
-            </script>
         </main>
         <footer>
             <p>긴급 연락처: <a href='tel:119'>119</a> | 의료 긴급 상황: <a href='tel:1339'>1339</a></p>
@@ -147,24 +126,19 @@
                 const showButton = document.getElementById('show-button');
                 const closeButton = document.getElementById('close-button');
                 const manual = document.getElementById('manual');
-                const audio = document.getElementById('audio');
 
                 showButton.addEventListener('click', () => {
                     manual.classList.add('active');
-                    audio.play();
                 });
 
                 closeButton.addEventListener('click', () => {
                     manual.classList.remove('active');
-                    audio.pause();
-                    audio.currentTime = 0;
                 });
             });
         </script>
 
         <script>
             const timer = document.getElementById('timer_time')
-            let TIME = 120
             let min = 1;
             let sec = 60;
             let cron;
