@@ -120,9 +120,13 @@
                 level: 3
             };
             const map = new kakao.maps.Map(container, options);
+            
 
             currentLocation(userPosition => {
+                // 지도 중심 내위치, 마커 띄우기
                 map.setCenter(userPosition);
+                var marker = new kakao.maps.Marker({position : userPosition});
+                marker.setMap(map);
 
                 fetch(xmlDataUrl)
                     .then(response => response.text())
