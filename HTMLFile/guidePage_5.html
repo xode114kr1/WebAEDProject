@@ -55,6 +55,10 @@
             #manual.active {
                 transform: translateY(0);
             }
+            .timerButton {
+                border: 3px solid black;
+                border-radius: 5px;
+            }
         </style>
     </head>
     <body>
@@ -104,12 +108,12 @@
                             </td>
                         </tr>
                     </table>
-                    <div class="timerBox" style="border:2px solid black; border-radius: 10px; width: 50%; padding: 3%; margin: 5% auto;">
+                    <div class="timerBox" style="border:3px solid black; border-radius: 10px; width: 50%; padding: 3%; margin: 5% auto;">
                         <div id="timer_time" style="font-size: 30px;">02:00</div>
                         <div id="timer_button">
-                            <button id="timerBtn_start" onclick="startButton()">시작</button>
-                            <button id="timerBtn_stop" onclick="stopButton()">정지</button>
-                            <button id="timerBtn_reset" onclick="resetButton()">리셋</button>
+                            <button class="timerButton" id="timerBtn_start" onclick="startButton()">시작</button>
+                            <button class="timerButton" id="timerBtn_stop" onclick="stopButton()">정지</button>
+                            <button class="timerButton" id="timerBtn_reset" onclick="resetButton()">리셋</button>
                         </div>
                     </div>
                     <button id="close-button">닫기</button>
