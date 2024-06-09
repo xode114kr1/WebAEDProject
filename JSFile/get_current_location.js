@@ -65,9 +65,9 @@ function handleUserLocation() {
 handleUserLocation()
     .then(userLocation => {
         console.log('사용자의 현재 위치:', userLocation);
+        getAddr(userLocation.lat, userLocation.lng);
     })
     .catch(error => {
         console.error('Error:', error);
         alert(error);
     });
-
