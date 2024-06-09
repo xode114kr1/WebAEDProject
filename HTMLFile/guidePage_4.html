@@ -87,7 +87,10 @@
 
                 <div id="manual">
                     <h2>심폐소생술 가이드라인</h2>
-
+                    <button id="play-button">재생</button>
+                    <button id="pause-button">일시정지</button>
+                    <button id="prevCPR-button">이전</button>
+                    <button id="nextCPR-button">다음</button>
                     <button id="close-button">닫기</button>
                 </div>
             </section>
@@ -100,21 +103,96 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {
+                const playButton = document.getElementById('play-button');
+                const pauseButton = document.getElementById('pause-button');
+                const prevCPRButton = document.getElementById('prevCPR-button');
+                const nextCPRButton = document.getElementById('nextCPR-button');
                 const showButton = document.getElementById('show-button');
                 const closeButton = document.getElementById('close-button');
                 const manual = document.getElementById('manual');
-                const audio = document.getElementById('audio');
 
+                const audioFiles = [
+                    '../media/CPR_Audio_1.mp3', 
+                    '../media/CPR_Audio_2.mp3',
+                    '../media/CPR_Audio_3.mp3',
+                    '../media/CPR_Audio_4.mp3'
+                ];
+
+                let currentAudioIndex = 0;
+                let audio = new Audio();
+                let isPlaying = false;
+                let timeoutId = null;
+
+                // 오디오 재생 종료 시 다음 오디오 재생
+                audio.addEventListener('ended', function() {
+                    currentAudioIndex++;
+
+                    // 3번째 파일에서 4번째 파일로 넘어갈 때 10초 대기
+                    if (currentAudioIndex == 3) {
+                        timeoutId = setTimeout(playNextAudio, 10000); // 10초 대기
+                    } else {
+                        timeoutId = setTimeout(playNextAudio, 1000);
+                    }
+                });
+
+                // 다음 오디오 파일 재생
+                function playNextAudio() {
+                    if (currentAudioIndex < audioFiles.length) {
+                        audio.src = audioFiles[currentAudioIndex];
+                        audio.play();
+                        isPlaying = true;
+                    } else {
+                        isPlaying = false; // 모든 파일이 재생된 경우 상태를 false로 설정
+                    }
+                }
+
+                 // 창 열기 버튼 클릭 이벤트 리스너
                 showButton.addEventListener('click', () => {
                     manual.classList.add('active');
-                    audio.play();
+                    if (!isPlaying) {
+                        playNextAudio();
+                    }
                 });
 
-                closeButton.addEventListener('click', () => {
+                // 창 닫기 버튼 클릭 이벤트 리스너
+                closeButton.addEventListener('click', () => { 
                     manual.classList.remove('active');
-                    audio.pause();
-                    audio.currentTime = 0;
+                    if (isPlaying) {
+                        audio.pause();
+                        clearTimeout(timeoutId); // 대기 중인 타이머 취소
+                        isPlaying = false;
+                    }
                 });
+
+                // 재생 버튼 클릭 이벤트 리스너
+                playButton.addEventListener('click', () => {
+                    if (!isPlaying) {
+                        playNextAudio();
+                    } else if (audio.paused) {
+                        audio.play(); // 일시정지된 오디오 다시 재생
+                    }
+                });
+
+                // 일시정지 버튼 클릭 이벤트 리스너
+                pauseButton.addEventListener('click', () => {
+                    if (isPlaying && !audio.paused) {
+                        audio.pause(); // 오디오 일시정지
+                    }
+                });
+
+                nextCPRButton.addEventListener('click', () => {
+                    audio.pause();
+                    currentAudioIndex++;
+                    playNextAudio();
+                })
+
+                prevCPRButton.addEventListener('click', () => {
+                    audio.pause();
+                    if(currentAudioIndex > 0){
+                        currentAudioIndex--;
+                    }
+                    playNextAudio();
+                })
             });
         </script>
     </body>
