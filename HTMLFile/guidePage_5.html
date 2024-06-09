@@ -97,7 +97,21 @@
                         <tr>
                             <td><img src="../media/AED_guide4.jpg" width="80%"></td>
                         </tr>
+                        <tr>
+                            <td>"
+                                AED 사용 후, 2분간 심폐소생술을 시행합니다.<br>
+                                2분 후, AED에서 다시 심장리듬 분석을 시작합니다.<br>
+                            </td>
+                        </tr>
                     </table>
+                    <div class="timerBox" style="border:2px solid black; border-radius: 10px; width: 50%; margin: 0 auto;">
+                        <div id="timer_time">02:00</div>
+                        <div id="timer_button">
+                            <button id="timerBtn_start" onclick="startButton()">시작</button>
+                            <button id="timerBtn_stop" onclick="stopButton()">정지</button>
+                            <button id="timerBtn_reset" onclick="resetButton()">리셋</button>
+                        </div>
+                    </div>
                     <button id="close-button">닫기</button>
                 </div>
             </section>
@@ -146,6 +160,56 @@
                     audio.currentTime = 0;
                 });
             });
+        </script>
+
+        <script>
+            const timer = document.getElementById('timer_time')
+            let TIME = 120
+            let min = 1;
+            let sec = 60;
+            let cron;
+
+            function startButton() {
+                updateTimer();
+                stopButton();
+                cron = setInterval(updateTimer, 1000);
+                timer.classList.add('start');
+            }
+
+            function stopButton() {
+                clearInterval(cron);
+                timer.classList.remove('start');
+            }
+
+            function resetButton() {
+                stopButton();
+                min = 1;
+                sec = 60;
+                timer.innerText = '02:00';
+                timer.classList.remove('start');
+            }
+
+            function updateTimer() {
+                if (sec != 0) {
+                    sec --;
+                    if (sec >= 10) {
+                        timer.innerText = '0' + min + ':' + sec;
+                    }
+                    else {
+                        timer.innerText = '0' + min + ':0' + sec;
+                    }
+                }
+                else {
+                    if (min != 0) {
+                        min --;
+                        sec = 59;
+                        timer.innerText = '0' + min + ':' + sec;
+                    }
+                    else {
+                        clearInterval(cron);
+                    }
+                }
+            }
         </script>
     </body>
 </html>
