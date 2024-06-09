@@ -115,24 +115,27 @@
                     '../media/CPR_Audio_1.mp3', 
                     '../media/CPR_Audio_2.mp3',
                     '../media/CPR_Audio_3.mp3',
-                    '../media/CPR_Audio_4.mp3'
+                    '../media/CPR_Audio_4.mp3',
+                    '../media/CPR_Audio_5.mp3',
+                    '../media/CPR_Audio_6.mp3',
                 ];
 
                 let currentAudioIndex = 0;
                 let audio = new Audio();
                 let isPlaying = false;
+                let isRegression = false;
                 let timeoutId = null;
 
                 // 오디오 재생 종료 시 다음 오디오 재생
                 audio.addEventListener('ended', function() {
-                    currentAudioIndex++;
-
-                    // 3번째 파일에서 4번째 파일로 넘어갈 때 10초 대기
-                    if (currentAudioIndex == 3) {
-                        timeoutId = setTimeout(playNextAudio, 10000); // 10초 대기
-                    } else {
-                        timeoutId = setTimeout(playNextAudio, 1000);
+                    if(currentAudioIndex == 5){
+                        currentAudioIndex = 3;
+                        isRegression = true;
                     }
+                    else{
+                        currentAudioIndex++;
+                    }
+                    playNextAudio();
                 });
 
                 // 다음 오디오 파일 재생
@@ -141,8 +144,6 @@
                         audio.src = audioFiles[currentAudioIndex];
                         audio.play();
                         isPlaying = true;
-                    } else {
-                        isPlaying = false; // 모든 파일이 재생된 경우 상태를 false로 설정
                     }
                 }
 
@@ -162,6 +163,8 @@
                         clearTimeout(timeoutId); // 대기 중인 타이머 취소
                         isPlaying = false;
                     }
+                    currentAudioIndex = 0;
+                    isRegression = false;
                 });
 
                 // 재생 버튼 클릭 이벤트 리스너
@@ -180,17 +183,29 @@
                     }
                 });
 
+                // 다음 버튼 클릭 이벤트 리스너
                 nextCPRButton.addEventListener('click', () => {
                     audio.pause();
-                    currentAudioIndex++;
+                    if(currentAudioIndex == 5){
+                        currentAudioIndex = 3;
+                        isRegression = true;
+                    }
+                    else{
+                        currentAudioIndex++;
+                    }
                     playNextAudio();
                 })
 
+                // 이전 버튼 클릭 이벤트 리스너
                 prevCPRButton.addEventListener('click', () => {
                     audio.pause();
-                    if(currentAudioIndex > 0){
+                    if(isRegression == true && currentAudioIndex == 3){
+                        currentAudioIndex = 5;
+                    }
+                    else if(currentAudioIndex > 0){
                         currentAudioIndex--;
                     }
+
                     playNextAudio();
                 })
             });
