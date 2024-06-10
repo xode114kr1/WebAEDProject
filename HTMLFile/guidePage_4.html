@@ -83,6 +83,11 @@
                 align-items: center;
                 justify-content: center;
             }
+
+            .manualFooter{
+                display: flex;
+                flex-direction: row;
+            }
         </style>
     </head>
     <body>
@@ -123,11 +128,12 @@
                         <img id="image" src="../media/AED_guide1.jpg" height="80%">
                     </div>
                     
-                    <button id="play-button">재생</button>
-                    <button id="pause-button">일시정지</button>
-                    <button id="prevCPR-button">이전</button>
-                    <button id="nextCPR-button">다음</button>
-                    
+                    <div class="manualFooter">
+                        <button id="play-button">재생</button>
+                        <button id="pause-button">일시정지</button>
+                        <button id="prevCPR-button">이전</button>
+                        <button id="nextCPR-button">다음</button>
+                    </div>
                 </div>
             </section>
         </main>
