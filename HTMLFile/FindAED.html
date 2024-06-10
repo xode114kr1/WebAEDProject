@@ -38,11 +38,11 @@
         }
 
         main {
-            display: flex; /* Flexbox 사용 */
-            flex-direction: column; /* 수직 방향으로 정렬 */
-            flex-grow: 1; /* 남은 공간을 채우기 위해 flex-grow 사용 */
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
             margin: 0;
-            background-color: rgb(214, 214, 214); /* 배경색 설정 */
+            background-color: rgb(214, 214, 214);
         }
 
         footer {
@@ -63,7 +63,6 @@
             }
         }
 
-        /* 커스텀 오버레이 스타일 */
         .customoverlay {
             position: relative;
             bottom: 40px;
@@ -94,9 +93,11 @@
     <footer>
         <p>긴급 연락처: <a href='tel:119'>119</a> | 의료 긴급 상황: <a href='tel:1339'>1339</a></p>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=047d2413f56196438f508d6b496dd9ed&libraries=services"></script>
+    <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=WiHftSul0k9KQuIGsY2qy34zYq3d2pkB7UXEAGF0"></script>
     <script>
-        let map;  // map 변수를 전역으로 선언
+        let map;
 
         function currentLocation(callback) {
             if (navigator.geolocation) {
@@ -121,13 +122,12 @@
                 center: new kakao.maps.LatLng(35.179816, 129.075075),
                 level: 3
             };
-            map = new kakao.maps.Map(container, options);  // 전역 변수 map 초기화
+            map = new kakao.maps.Map(container, options);
             
             currentLocation(userPosition => {
-                // 지도 중심 내위치, 마커 띄우기
                 map.setCenter(userPosition);
-                var marker = new kakao.maps.Marker({position : userPosition});
-                marker.setMap(map);
+                var userMarker = new kakao.maps.Marker({position: userPosition});
+                userMarker.setMap(map);
 
                 fetch(xmlDataUrl)
                     .then(response => response.text())
@@ -136,8 +136,7 @@
                         const xmlDoc = parser.parseFromString(data, 'text/xml');
                         const items = xmlDoc.getElementsByTagName('item');
 
-                        const radius = 400; // 400m 반경
-
+                        const radius = 400;
                         let closestAED = null;
                         let minDistance = radius;
 
@@ -147,8 +146,8 @@
                             const [longitude, latitude] = geom.replace('POINT(', '').replace(')', '').split(' ');
 
                             const markerPosition = new kakao.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
-
                             const distance = getDistance(userPosition, markerPosition);
+
                             if (distance <= minDistance) {
                                 minDistance = distance;
                                 closestAED = {
@@ -159,19 +158,19 @@
                         }
 
                         if (closestAED) {
-                            var imageSrc = "../media/AED이미지.png", // 마커 이미지 넣기 
-                            imageSize = new kakao.maps.Size(50, 65), // 마커 이미지 크기 조정
-                            imageOption = {offset: new kakao.maps.Point(27, 69)}; // 이미지 안에서의 좌표 설정
-                            const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-                            
-                            const marker = new kakao.maps.Marker({
-                                position: closestAED.position,
-                                image: markerImage
-                            });
-                            marker.setMap(map);
+                            var imageSrc = "../media/AED이미지.png",
+                                imageSize = new kakao.maps.Size(50, 65),
+                                imageOption = {offset: new kakao.maps.Point(27, 69)};
+                                const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
-                            let customOverlay = null;
-                            kakao.maps.event.addListener(marker, 'click', function() {
+                                const aedMarker = new kakao.maps.Marker({
+                                    position: closestAED.position,
+                                    image: markerImage
+                                });
+                                aedMarker.setMap(map);
+
+                                let customOverlay = null;
+                                kakao.maps.event.addListener(aedMarker, 'click', function() {
                                 if (customOverlay) {
                                     customOverlay.setMap(null);
                                 }
@@ -179,18 +178,19 @@
                                 const content = `
                                     <div class="customoverlay">
                                         <span class="title">${closestAED.address}</span>
-                                        <div onclick="getWalkingRoute('${userPosition.getLng()},${userPosition.getLat()}', '${closestAED.position.getLng()},${closestAED.position.getLat()}')">길찾기</div>
+                                        <div onclick="drawWalkingRoute(${userPosition.getLng()}, ${userPosition.getLat()}, ${closestAED.position.getLng()}, ${closestAED.position.getLat()})">길찾기</div>
                                     </div>
                                 `;
 
                                 customOverlay = new kakao.maps.CustomOverlay({
                                     content: content,
                                     map: map,
-                                    position: marker.getPosition()
+                                    position: aedMarker.getPosition()
                                 });
 
                                 customOverlay.setMap(map);
                             });
+
                         }
                     })
                     .catch(error => {
@@ -199,87 +199,74 @@
             });
         }
 
-        // 페이지가 로드되면 초기화 함수 호출
         window.onload = initializeMap;
 
-        // 하버사인 공식을 사용하여 두 좌표 간의 거리 계산
         function getDistance(latlng1, latlng2) {
-            const R = 6371e3; // 지구의 반경 (미터 단위)
-            const lat1 = latlng1.getLat() * Math.PI / 180; // 위도를 라디안으로 변환
-            const lat2 = latlng2.getLat() * Math.PI / 180; // 위도를 라디안으로 변환
-            const deltaLat = (latlng2.getLat() - latlng1.getLat()) * Math.PI / 180; // 위도 차이
-            const deltaLng = (latlng2.getLng() - latlng1.getLng()) * Math.PI / 180; // 경도 차이
+            const R = 6371e3;
+            const lat1 = latlng1.getLat() * Math.PI / 180;
+            const lat2 = latlng2.getLat() * Math.PI / 180;
+            const deltaLat = (latlng2.getLat() - latlng1.getLat()) * Math.PI / 180;
+            const deltaLng = (latlng2.getLng() - latlng1.getLng()) * Math.PI / 180;
 
             const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
                     Math.cos(lat1) * Math.cos(lat2) *
                     Math.sin(deltaLng / 2) * Math.sin(deltaLng / 2);
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-            const distance = R * c; // 두 좌표 간의 거리 (미터 단위)
+            const distance = R * c;
             return distance;
         }
 
-        async function getWalkingRoute(origin, destination) {
-            const APP_KEY = 'P20hHoKfx5ai9qGw0LhMM5uLP12qLRNY9g40Zndw';
-            const url = 'https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json';
+        function drawWalkingRoute(startX, startY, endX, endY) {
+            $.ajax({
+                method: "POST",
+                headers: {
+                    "appKey": "WiHftSul0k9KQuIGsY2qy34zYq3d2pkB7UXEAGF0"
+                },
+                url: "https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json",
+                data: {
+                    "startX": startX,
+                    "startY": startY,
+                    "endX": endX,
+                    "endY": endY,
+                    "reqCoordType": "WGS84GEO",
+                    "resCoordType": "EPSG3857",
+                    "startName": "출발지",
+                    "endName": "도착지"
+                },
+                success: function(response) {
+                    var resultData = response.features;
+                    var points = [];
 
-            const [startLng, startLat] = origin.split(',');
-            const [endLng, endLat] = destination.split(',');
+                    for (var i in resultData) {
+                        var geometry = resultData[i].geometry;
 
-            const headers = {
-                'appKey': APP_KEY,
-                'Content-Type': 'application/json'
-            };
-
-            const body = JSON.stringify({
-                startX: startLng,
-                startY: startLat,
-                endX: endLng,
-                endY: endLat,
-                reqCoordType: 'WGS84GEO',
-                resCoordType: 'WGS84GEO'
-            });
-
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: headers,
-                    body: body
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                console.log(data);
-
-                if (data.features) {
-                    const linePath = [];
-                    data.features.forEach(feature => {
-                        if (feature.geometry.type === 'LineString') {
-                            feature.geometry.coordinates.forEach(coordinate => {
-                                const [lng, lat] = coordinate;
-                                linePath.push(new kakao.maps.LatLng(lat, lng));
-                            });
+                        if (geometry.type == "LineString") {
+                            for (var j in geometry.coordinates) {
+                                var point = new Tmapv2.Point(geometry.coordinates[j][0], geometry.coordinates[j][1]);
+                                var convertPoint = Tmapv2.Projection.convertEPSG3857ToWGS84GEO(point);
+                                var latLng = new kakao.maps.LatLng(convertPoint._lat, convertPoint._lng);
+                                points.push(latLng);
+                            }
                         }
-                    });
-
-                    const polyline = new kakao.maps.Polyline({
-                        path: linePath,
-                        strokeWeight: 5,
-                        strokeColor: '#0000FF',
-                        strokeOpacity: 0.7,
-                        strokeStyle: 'solid'
-                    });
-
-                    polyline.setMap(map);  // 전역 변수 map을 사용
-                } else {
-                    console.error('No valid route data found.');
+                    }
+                    drawLineOnMap(points);
+                },
+                error: function(request, status, error) {
+                    console.log("Error:", error);
                 }
-            } catch (error) {
-                console.error('Error:', error);
-            }
+            });
+        }
+
+        function drawLineOnMap(points) {
+            var polyline = new kakao.maps.Polyline({
+                path: points,
+                strokeWeight: 5,
+                strokeColor: '#FF0000',
+                strokeOpacity: 0.7,
+                strokeStyle: 'solid'
+            });
+            polyline.setMap(map);
         }
     </script>
 </body>
