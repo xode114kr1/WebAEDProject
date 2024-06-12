@@ -85,8 +85,16 @@
             }
 
             .manualFooter{
+                margin-left: 15%;
+                margin-right: 15%;
                 display: flex;
                 flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .manualFooter button{
+                border : 2px solid black;
+                border-radius: 50%;
             }
         </style>
     </head>
@@ -117,31 +125,31 @@
                     <a href="guidePage_3.html" class="button_prev">이전</a>
                     <a href="guidePage_5.html" class="button_next">다음</a>
                 </div>
-
-                <div id="manual">
-                    <div class="manualHeader">
-                        <div class="mHeaderItem1"></div>
-                        <div class="mHeaderItem2">심폐소생술 가이드라인</div>
-                        <div class="mHeaderItem3"><button id="close-button" style="font-size: 20px;">닫기</button></div>
-                    </div>
-                    <div class="manualMain">
-                        <img id="image" src="../media/AED_guide1.jpg" height="80%">
-                    </div>
-                    
-                    <div class="manualFooter">
-                        <button id="play-button">재생</button>
-                        <button id="pause-button">일시정지</button>
-                        <button id="prevCPR-button">이전</button>
-                        <button id="nextCPR-button">다음</button>
-                    </div>
-                </div>
             </section>
         </main>
         <footer>
             <p>긴급 연락처: <a href='tel:119'>119</a> | 의료 긴급 상황: <a href='tel:1339'>1339</a></p>
         </footer>
 
-        <!-- <audio id="audio" src=""></audio> -->
+        <div id="manual">
+            <div class="manualHeader">
+                <div class="mHeaderItem1"></div>
+                <div class="mHeaderItem2">심폐소생술 가이드라인</div>
+                <div class="mHeaderItem3"><button id="close-button" style="font-size: 20px;">닫기</button></div>
+            </div>
+            <div class="manualMain">
+                <img id="image" src="../media/AED_guide1.jpg" height="80%">
+                <div id="subtitle" style="width: 60%; text-align: center;"></div>
+            </div>
+            
+            <div class="manualFooter">
+                <button id="prevCPR-button"><img src="../media/icon_prevbutton.png" width="30" height="30"></button>
+                <button id="play-button"><img src="../media/icon_playbutton_arrowhead.png" width="30" height="30"></button>
+                <button id="pause-button"><img src="../media/icon_pause.png" width="30" height="30"></button>
+                <button id="nextCPR-button"><img src="../media/icon_nextbutton.png" width="30" height="30"></button>
+            </div>
+            
+        </div>
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {
@@ -152,6 +160,7 @@
                 const showButton = document.getElementById('show-button');
                 const closeButton = document.getElementById('close-button');
                 const manual = document.getElementById('manual');
+                const subtitleDiv = document.getElementById('subtitle');
 
                 const audioFiles = [
                     '../media/CPR_Audio_1.mp3', 
@@ -169,6 +178,15 @@
                     '../media/CPR_guide3.png',
                     '../media/CPR_guide3.png',
                     '../media/CPR_guide4.png',
+                ];
+
+                const subtitleFiles = [
+                    '',
+                    '환자의 머리를 기울이고 턱을 올려서 기도를 열어줍니다',
+                    '약 10초간 호흡이 있는지 확인합니다.',
+                    '환자의 가슴뼈 아래쪽 지점을 손바닥 뒷꿈치로 30회 압박합니다.',
+                    '압박을 시작합니다',
+                    '기도를 열고 보통의 호흡으로 2번, 1초간 숨을 불어 넣어줍니다. 이때 가슴이 올라오는것을 확인합니다.'
                 ];
 
                 let currentAudioIndex = 0;
@@ -194,6 +212,7 @@
                     if (currentAudioIndex < audioFiles.length) {
                         audio.src = audioFiles[currentAudioIndex];
                         image.src = imageFiles[currentAudioIndex];
+                        subtitleDiv.innerText = subtitleFiles[currentAudioIndex];
                         audio.play();
                         isPlaying = true;
                     }
