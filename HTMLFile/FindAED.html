@@ -186,6 +186,7 @@
                             const addrs = items[i].getElementsByTagName('addrs')[0].textContent;
                             const geom = items[i].getElementsByTagName('geom')[0].textContent;
                             const [longitude, latitude] = geom.replace('POINT(', '').replace(')', '').split(' ');
+                            const tel = items[i].getElementsByTagName('biz_tel')[0].textContent;
 
                             const markerPosition = new kakao.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
                             const distance = getDistance(userPosition, markerPosition);
@@ -194,7 +195,8 @@
                                 closestAEDs.push({
                                     position: markerPosition,
                                     address: addrs,
-                                    distance: distance
+                                    distance: distance,
+                                    tel: tel
                                 })
                             }
                         }
@@ -224,7 +226,7 @@
                                     <div class="customoverlay">
                                         <button class="closebtn" onclick="closeOverlay()">×</button>
                                         <span class="title">
-                                            ${aed.address}
+                                            ${aed.address}<br> ${aed.tel}
                                         </span>
                                         <button onclick="toggleWalkingRoute(${userPosition.getLng()}, ${userPosition.getLat()}, ${aed.position.getLng()}, ${aed.position.getLat()})">길찾기</button>
                                     </div>
