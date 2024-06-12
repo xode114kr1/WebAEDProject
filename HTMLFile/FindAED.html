@@ -64,7 +64,6 @@
         }
 
         .customoverlay {
-            position: relative;
             bottom: 40px;
             border-radius: 10px;
             border: 1px solid #ccc;
@@ -74,13 +73,29 @@
             font-size: 14px;
             color: black;
         }
-
+        
         .customoverlay .title {
             display: block;
             text-align: center;
             font-weight: bold;
             padding: 5px 0;
         }
+        
+        .customoverlay button {
+            display: block;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: rgb(255, 102, 102);
+            color: white;
+        }
+        
+        .customoverlay button:hover {
+            background-color: rgb(200, 80, 80);
+        }
+        
     </style>
 </head>
 <body>
@@ -179,7 +194,7 @@
                                 const content = `
                                     <div class="customoverlay">
                                         <span class="title">${aed.address}</span>
-                                        <div onclick="drawWalkingRoute(${userPosition.getLng()}, ${userPosition.getLat()}, ${aed.position.getLng()}, ${aed.position.getLat()})">길찾기</div>
+                                        <button onclick="drawWalkingRoute(${userPosition.getLng()}, ${userPosition.getLat()}, ${aed.position.getLng()}, ${aed.position.getLat()})">길찾기</button>
                                     </div>
                                 `;
 
