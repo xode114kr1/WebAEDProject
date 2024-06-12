@@ -95,6 +95,10 @@
             margin-top: 5px;
         }
         
+        .customoverlay button:hover {
+            background-color: rgb(200, 80, 80);
+        }
+        
         .customoverlay .closebtn {
             display: flex;
             justify-content: center;
@@ -212,6 +216,7 @@
 
                             
                             kakao.maps.event.addListener(aedMarker, 'click', function(){
+                                map.panTo(aedMarker.getPosition());
                                 if(customOverlay) {
                                     customOverlay.setMap(null);
                                 }
@@ -224,7 +229,7 @@
                                         <button onclick="toggleWalkingRoute(${userPosition.getLng()}, ${userPosition.getLat()}, ${aed.position.getLng()}, ${aed.position.getLat()})">길찾기</button>
                                     </div>
                                 `;
-
+                                
                                 customOverlay = new kakao.maps.CustomOverlay({
                                     content: content,
                                     map: map,
@@ -325,6 +330,10 @@
         }
 
         function toggleWalkingRoute(startX, startY, endX, endY) {
+            var avgX = (startX + endX)/2;
+            var avgY = (startY + endY)/2;
+            const avgPosition = new kakao.maps.LatLng(avgY, avgX);
+            map.panTo(avgPosition);
             if (currentPolyline) {
                 currentPolyline.setMap(null);
                 currentPolyline = null;
