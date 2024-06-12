@@ -84,7 +84,15 @@
                 justify-content: center;
             }
 
-            .manualFooter{
+            .manualFooter1{
+                margin-left: 35%;
+                margin-right: 35%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .manualFooter2{
                 margin-left: 15%;
                 margin-right: 15%;
                 display: flex;
@@ -92,9 +100,24 @@
                 justify-content: space-between;
             }
 
-            .manualFooter button{
+            .manualFooter1 button{
                 border : 2px solid black;
                 border-radius: 50%;
+                font-size: 30px;
+            }
+
+            .manualFooter2 button{
+                border : 2px solid black;
+                border-radius: 50%;
+                font-size: 30px;
+            }
+
+            .manualFooter1 button:hover{
+                background-color: aqua;
+            }
+
+            .manualFooter2 button:hover{
+                background-color: aqua;
             }
         </style>
     </head>
@@ -141,18 +164,31 @@
                 <img id="image" src="../media/AED_guide1.jpg" height="80%">
                 <div id="subtitle" style="width: 60%; text-align: center;"></div>
             </div>
-            
-            <div class="manualFooter">
-                <button id="prevCPR-button"><img src="../media/icon_prevbutton.png" width="30" height="30"></button>
+
+            <div class="manualFooter1">
                 <button id="play-button"><img src="../media/icon_playbutton_arrowhead.png" width="30" height="30"></button>
                 <button id="pause-button"><img src="../media/icon_pause.png" width="30" height="30"></button>
-                <button id="nextCPR-button"><img src="../media/icon_nextbutton.png" width="30" height="30"></button>
             </div>
             
+            <div class="manualFooter2">
+                <button id="pageOne">1</button>
+                <button id="pageTwo">2</button>
+                <button id="pageThree">3</button>
+                <button id="pageFour">4</button>
+                <button id="pageFive">5</button>
+                <button id="pageSix">6</button>
+            </div>
         </div>
 
         <script>
             document.addEventListener('DOMContentLoaded', () => {
+                const pageOneButton = document.getElementById('pageOne');
+                const pageTwoButton = document.getElementById('pageTwo');
+                const pageThreeButton = document.getElementById('pageThree');
+                const pageFourButton = document.getElementById('pageFour');
+                const pageFiveButton = document.getElementById('pageFive');
+                const pageSixButton = document.getElementById('pageSix');
+
                 const playButton = document.getElementById('play-button');
                 const pauseButton = document.getElementById('pause-button');
                 const prevCPRButton = document.getElementById('prevCPR-button');
@@ -255,30 +291,62 @@
                 });
 
                 // 다음 버튼 클릭 이벤트 리스너
-                nextCPRButton.addEventListener('click', () => {
-                    audio.pause();
-                    if(currentAudioIndex == 5){
-                        currentAudioIndex = 3;
-                        isRegression = true;
-                    }
-                    else{
-                        currentAudioIndex++;
-                    }
-                    playNextAudio();
-                })
+                // nextCPRButton.addEventListener('click', () => {
+                //     audio.pause();
+                //     if(currentAudioIndex == 5){
+                //         currentAudioIndex = 3;
+                //         isRegression = true;
+                //     }
+                //     else{
+                //         currentAudioIndex++;
+                //     }
+                //     playNextAudio();
+                // });
 
                 // 이전 버튼 클릭 이벤트 리스너
-                prevCPRButton.addEventListener('click', () => {
-                    audio.pause();
-                    if(isRegression == true && currentAudioIndex == 3){
-                        currentAudioIndex = 5;
-                    }
-                    else if(currentAudioIndex > 0){
-                        currentAudioIndex--;
-                    }
+                // prevCPRButton.addEventListener('click', () => {
+                //     audio.pause();
+                //     if(isRegression == true && currentAudioIndex == 3){
+                //         currentAudioIndex = 5;
+                //     }
+                //     else if(currentAudioIndex > 0){
+                //         currentAudioIndex--;
+                //     }
 
+                //     playNextAudio();
+                // });
+
+                pageOneButton.addEventListener('click', () => {
+                    audio.pause();
+                    currentAudioIndex = 0;
                     playNextAudio();
-                })
+                });
+                pageTwoButton.addEventListener('click', () => {
+                    audio.pause();
+                    currentAudioIndex = 1;
+                    playNextAudio();
+                });
+                pageThreeButton.addEventListener('click', () => {
+                    audio.pause();
+                    currentAudioIndex = 2;
+                    playNextAudio();
+                });
+                pageFourButton.addEventListener('click', () => {
+                    audio.pause();
+                    currentAudioIndex = 3;
+                    playNextAudio();
+                });
+                pageFiveButton.addEventListener('click', () => {
+                    audio.pause();
+                    currentAudioIndex = 4;
+                    playNextAudio();
+                });
+
+                pageSixButton.addEventListener('click', () => {
+                    audio.pause();
+                    currentAudioIndex = 5;
+                    playNextAudio();
+                });
             });
         </script>
     </body>
