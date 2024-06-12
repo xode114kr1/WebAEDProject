@@ -225,7 +225,7 @@
                                         <span class="title">
                                             ${aed.address}
                                         </span>
-                                        <button onclick="drawWalkingRoute(${userPosition.getLng()}, ${userPosition.getLat()}, ${aed.position.getLng()}, ${aed.position.getLat()})">길찾기</button>
+                                        <button onclick="toggleWalkingRoute(${userPosition.getLng()}, ${userPosition.getLat()}, ${aed.position.getLng()}, ${aed.position.getLat()})">길찾기</button>
                                     </div>
                                 `;
 
@@ -269,6 +269,8 @@
             return distance;
         }
 
+        let currentPolyline = null;
+
         function drawWalkingRoute(startX, startY, endX, endY) {
             $.ajax({
                 method: "POST",
@@ -311,15 +313,30 @@
         }
 
         function drawLineOnMap(points) {
-            var polyline = new kakao.maps.Polyline({
-                path: points,
-                strokeWeight: 5,
-                strokeColor: '#FF0000',
-                strokeOpacity: 0.7,
-                strokeStyle: 'solid'
-            });
-            polyline.setMap(map);
+            if (currentPolyline) {
+                currentPolyline.setMap(null);
+                currentPolyline = null;
+            } else {
+                currentPolyline = new kakao.maps.Polyline({
+                    path: points,
+                    strokeWeight: 5,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 0.7,
+                    strokeStyle: 'solid'
+                });
+                currentPolyline.setMap(map);
+            }
         }
+
+        function toggleWalkingRoute(startX, startY, endX, endY) {
+            if (currentPolyline) {
+                currentPolyline.setMap(null);
+                currentPolyline = null;
+            } else {
+                drawWalkingRoute(startX, startY, endX, endY);
+            }
+        }
+        
     </script>
 </body>
 </html>
