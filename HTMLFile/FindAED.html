@@ -64,7 +64,6 @@
         }
 
         .customoverlay {
-            position: relative;
             bottom: 40px;
             border-radius: 10px;
             border: 1px solid #ccc;
@@ -74,13 +73,29 @@
             font-size: 14px;
             color: black;
         }
-
+        
         .customoverlay .title {
             display: block;
             text-align: center;
             font-weight: bold;
             padding: 5px 0;
         }
+        
+        .customoverlay button {
+            display: block;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: rgb(255, 102, 102);
+            color: white;
+        }
+        
+        .customoverlay button:hover {
+            background-color: rgb(200, 80, 80);
+        }
+        
     </style>
 </head>
 <body>
@@ -136,9 +151,8 @@
                         const xmlDoc = parser.parseFromString(data, 'text/xml');
                         const items = xmlDoc.getElementsByTagName('item');
 
-                        const radius = 400;
-                        let closestAED = null;
-                        let minDistance = radius;
+                        const radius = 800;
+                        let closestAEDs = [];
 
                         for (let i = 0; i < items.length; i++) {
                             const addrs = items[i].getElementsByTagName('addrs')[0].textContent;
@@ -148,37 +162,39 @@
                             const markerPosition = new kakao.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
                             const distance = getDistance(userPosition, markerPosition);
 
-                            if (distance <= minDistance) {
-                                minDistance = distance;
-                                closestAED = {
+                            if(distance <= radius){
+                                closestAEDs.push({
                                     position: markerPosition,
-                                    address: addrs
-                                };
+                                    address: addrs,
+                                    distance: distance
+                                })
                             }
                         }
+                        
+                        closestAEDs.sort((a, b) => a.distance - b.distance);
+                        closestAEDs = closestAEDs.slice(0 , 3);
 
-                        if (closestAED) {
+                        closestAEDs.forEach(aed => {
                             var imageSrc = "../media/AED이미지.png",
-                                imageSize = new kakao.maps.Size(50, 65),
-                                imageOption = {offset: new kakao.maps.Point(27, 69)};
-                                const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+                            imageSize = new kakao.maps.Size(50, 65),
+                            imageOption = {offset: new kakao.maps.Point(27, 69)};
+                            const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
-                                const aedMarker = new kakao.maps.Marker({
-                                    position: closestAED.position,
-                                    image: markerImage
-                                });
-                                aedMarker.setMap(map);
+                            const aedMarker = new kakao.maps.Marker({
+                                position: aed.position,
+                                image: markerImage 
+                            });
+                            aedMarker.setMap(map);
 
-                                let customOverlay = null;
-                                kakao.maps.event.addListener(aedMarker, 'click', function() {
-                                if (customOverlay) {
+                            let customOverlay = null;
+                            kakao.maps.event.addListener(aedMarker, 'click', function(){
+                                if(customOverlay) {
                                     customOverlay.setMap(null);
                                 }
-
                                 const content = `
                                     <div class="customoverlay">
-                                        <span class="title">${closestAED.address}</span>
-                                        <div onclick="drawWalkingRoute(${userPosition.getLng()}, ${userPosition.getLat()}, ${closestAED.position.getLng()}, ${closestAED.position.getLat()})">길찾기</div>
+                                        <span class="title">${aed.address}</span>
+                                        <button onclick="drawWalkingRoute(${userPosition.getLng()}, ${userPosition.getLat()}, ${aed.position.getLng()}, ${aed.position.getLat()})">길찾기</button>
                                     </div>
                                 `;
 
@@ -187,11 +203,10 @@
                                     map: map,
                                     position: aedMarker.getPosition()
                                 });
-
                                 customOverlay.setMap(map);
                             });
+                        });
 
-                        }
                     })
                     .catch(error => {
                         console.error('XML 데이터 가져오는 중 오류 발생:', error);
