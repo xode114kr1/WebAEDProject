@@ -233,7 +233,8 @@
                                 customOverlay = new kakao.maps.CustomOverlay({
                                     content: content,
                                     map: map,
-                                    position: aedMarker.getPosition()
+                                    position: aedMarker.getPosition(),
+                                    yAnchor: 1.15
                                 });
                                 customOverlay.setMap(map);
                             });
