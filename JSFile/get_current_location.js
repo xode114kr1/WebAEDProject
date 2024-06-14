@@ -24,14 +24,3 @@ function currentLocation(callback) {
     }
     });
 }
-
-// 페이지 로드 시 사용자 위치 정보를 가져와서 처리
-currentLocation()
-    .then(userPosition => {
-        console.log('사용자의 현재 위치:', userPosition);
-        getAddr(userPosition.lat, userPosition.lng);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert(error);
-    });
