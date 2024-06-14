@@ -236,7 +236,6 @@
 
                 // 오디오 재생 종료 시 다음 오디오 재생
                 audio.addEventListener('ended', function() {
-                    console.log(currentAudioIndex);
                     if(currentAudioIndex == 3){
                         audio.pause();
                         four_five_pause = true;
