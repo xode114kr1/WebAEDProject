@@ -52,7 +52,7 @@ function initializeMap() {
                     closestAEDs = closestAEDs.slice(0, 3);
 
                     closestAEDs.forEach(aed => {
-                        var imageSrc = "../media/AED이미지.png",
+                        var imageSrc = "../media/AEDimage.png",
                             imageSize = new kakao.maps.Size(50, 65),
                             imageOption = { offset: new kakao.maps.Point(27, 69) };
                         const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
