@@ -176,7 +176,6 @@
                 <button id="pageThree">3</button>
                 <button id="pageFour">4</button>
                 <button id="pageFive">5</button>
-                <button id="pageSix">6</button>
             </div>
         </div>
 
@@ -187,7 +186,6 @@
                 const pageThreeButton = document.getElementById('pageThree');
                 const pageFourButton = document.getElementById('pageFour');
                 const pageFiveButton = document.getElementById('pageFive');
-                const pageSixButton = document.getElementById('pageSix');
 
                 const playButton = document.getElementById('play-button');
                 const pauseButton = document.getElementById('pause-button');
@@ -234,6 +232,7 @@
 
                 // 오디오 재생 종료 시 다음 오디오 재생
                 audio.addEventListener('ended', function() {
+                    console.log(currentAudioIndex);
                     if(currentAudioIndex == 3){
                         audio.pause();
                         four_five_pause = true;
@@ -249,10 +248,84 @@
                     }
                     
                 });
+                
+                function clearButtonColor(num){
+                    if(num == -1){
+                        pageOneButton.style.backgroundColor = 'white';
+                        pageTwoButton.style.backgroundColor = 'white';
+                        pageThreeButton.style.backgroundColor = 'white';
+                        pageFourButton.style.backgroundColor = 'white';
+                        pageFiveButton.style.backgroundColor = 'white';
+                    }
+
+                    else if(num % 6 == 1){
+                        pageTwoButton.style.backgroundColor = 'white';
+                        pageThreeButton.style.backgroundColor = 'white';
+                        pageFourButton.style.backgroundColor = 'white';
+                        pageFiveButton.style.backgroundColor = 'white';
+                    }
+                    else if(num % 6 == 2){
+                        pageOneButton.style.backgroundColor = 'white';
+                        pageThreeButton.style.backgroundColor = 'white';
+                        pageFourButton.style.backgroundColor = 'white';
+                        pageFiveButton.style.backgroundColor = 'white';
+                    }
+                    else if(num % 6 == 3){
+                        pageOneButton.style.backgroundColor = 'white';
+                        pageTwoButton.style.backgroundColor = 'white';
+                        pageFourButton.style.backgroundColor = 'white';
+                        pageFiveButton.style.backgroundColor = 'white';
+                    }
+                    else if(num % 6 == 4){
+                        pageOneButton.style.backgroundColor = 'white';
+                        pageTwoButton.style.backgroundColor = 'white';
+                        pageThreeButton.style.backgroundColor = 'white';
+                        pageFiveButton.style.backgroundColor = 'white';
+                    }
+                    else if(num % 6 == 5){
+                        pageOneButton.style.backgroundColor = 'white';
+                        pageTwoButton.style.backgroundColor = 'white';
+                        pageThreeButton.style.backgroundColor = 'white';
+                        pageFourButton.style.backgroundColor = 'white';
+                    }
+                }
+
+                function setButtonColor(num){
+                    let list = [
+                        '',
+                        'pageOneButton',
+                        'pageTwoButton',
+                        'pageThreeButton',
+                        'pageFourButton',
+                        'pageFiveButton'
+                    ];
+                    if(num % 6 == 1){
+                        clearButtonColor(1);
+                        pageOneButton.style.backgroundColor = 'red';
+                    }
+                    if(num % 6 == 2){
+                        clearButtonColor(2);
+                        pageTwoButton.style.backgroundColor = 'red';
+                    }
+                    if(num % 6 == 3){
+                        clearButtonColor(3);
+                        pageThreeButton.style.backgroundColor = 'red';
+                    }
+                    if(num % 6 == 4){
+                        clearButtonColor(4);
+                        pageFourButton.style.backgroundColor = 'red';
+                    }
+                    if(num % 6 == 5){
+                        clearButtonColor(5);
+                        pageFiveButton.style.backgroundColor = 'red';
+                    }
+                }
+
 
                 // 다음 오디오 파일 재생
                 function playNextAudio() {
                     if (currentAudioIndex < audioFiles.length) {
+                        setButtonColor(currentAudioIndex);
                         audio.src = audioFiles[currentAudioIndex];
                         image.src = imageFiles[currentAudioIndex];
                         subtitleDiv.innerText = subtitleFiles[currentAudioIndex];
@@ -271,6 +344,7 @@
 
                 // 창 닫기 버튼 클릭 이벤트 리스너
                 closeButton.addEventListener('click', () => { 
+                    clearButtonColor(-1);
                     manual.classList.remove('active');
                     if (isPlaying) {
                         audio.pause();
@@ -334,35 +408,30 @@
 
                 pageOneButton.addEventListener('click', () => {
                     audio.pause();
-                    currentAudioIndex = 0;
+                    currentAudioIndex = 1;
                     playNextAudio();
                 });
                 pageTwoButton.addEventListener('click', () => {
                     audio.pause();
-                    currentAudioIndex = 1;
+                    currentAudioIndex = 2;
                     playNextAudio();
                 });
                 pageThreeButton.addEventListener('click', () => {
                     audio.pause();
-                    currentAudioIndex = 2;
+                    currentAudioIndex = 3;
                     playNextAudio();
                 });
                 pageFourButton.addEventListener('click', () => {
                     audio.pause();
-                    currentAudioIndex = 3;
+                    currentAudioIndex = 4;
                     playNextAudio();
                 });
                 pageFiveButton.addEventListener('click', () => {
                     audio.pause();
-                    currentAudioIndex = 4;
-                    playNextAudio();
-                });
-
-                pageSixButton.addEventListener('click', () => {
-                    audio.pause();
                     currentAudioIndex = 5;
                     playNextAudio();
                 });
+
             });
         </script>
     </body>
