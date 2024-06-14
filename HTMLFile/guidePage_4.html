@@ -42,7 +42,7 @@
                 bottom: 0;
                 left: 0;
                 width: 100%;
-                height: 70vh;
+                height: 80vh;
                 background-color: white;
                 box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
                 transition: transform 0.3s ease;
@@ -123,6 +123,14 @@
             .manualFooter2 button:hover{
                 background-color: aqua;
             }
+            .cancelImg{
+                width: 20px;
+                height: 20px;
+            }
+            .closeButton{
+                background-color: white;
+                border: 0px;
+            }
         </style>
     </head>
     <body>
@@ -162,7 +170,7 @@
             <div class="manualHeader">
                 <div class="mHeaderItem1"></div>
                 <div class="mHeaderItem2">심폐소생술 가이드라인</div>
-                <div class="mHeaderItem3"><button id="close-button" style="font-size: 20px;">닫기</button></div>
+                <div class="mHeaderItem3"><button class = 'closeButton' id ='close-button'><img class="cancelImg" src="../media/icon_cancel.png"></button></div>
             </div>
             <div class="manualMain">
                 <img id="image" src="../media/AED_guide1.jpg" height="80%">
@@ -236,13 +244,12 @@
 
                 // 오디오 재생 종료 시 다음 오디오 재생
                 audio.addEventListener('ended', function() {
-                    console.log(currentAudioIndex);
                     if(currentAudioIndex == 3){
                         audio.pause();
                         four_five_pause = true;
                     }
                     else if(currentAudioIndex == 5){
-                        currentAudioIndex = 3;
+                        currentAudioIndex = 4;
                         isRegression = true;
                         playNextAudio();
                     }
