@@ -77,7 +77,21 @@
             background-color: rgb(255, 102, 102);
         }
         
-        
+        .back-button {
+            position: absolute;
+            top: 45px;
+            left: 10px;
+            padding: 5px 5px;
+            font-size: 16px;
+            background-color: rgb(255, 102, 102);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -85,6 +99,7 @@
         심정지 환자 발생시 메뉴얼
     </header>
     <main>
+        <button class="back-button" onclick="history.back()"><img src="../media/icon_back.png"></button>
         <div id="map"></div>
     </main>
     <footer>
