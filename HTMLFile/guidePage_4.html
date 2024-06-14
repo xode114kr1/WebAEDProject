@@ -220,7 +220,7 @@
                     '',
                     '환자의 머리를 기울이고 턱을 올려서 기도를 열어줍니다',
                     '약 10초간 호흡이 있는지 확인합니다.',
-                    '환자의 가슴뼈 아래쪽 지점을 손바닥 뒷꿈치로 30회 압박합니다.',
+                    '환자의 가슴뼈 아래쪽 지점을 손바닥 뒷꿈치로 신호에 따라 30회 압박합니다.',
                     '압박을 시작합니다',
                     '기도를 열고 보통의 호흡으로 2번, 1초간 숨을 불어 넣어줍니다. 이때 가슴이 올라오는것을 확인합니다.'
                 ];
@@ -230,17 +230,24 @@
                 let isPlaying = false;
                 let isRegression = false;
                 let timeoutId = null;
+                let four_five_pause = false;
 
                 // 오디오 재생 종료 시 다음 오디오 재생
                 audio.addEventListener('ended', function() {
-                    if(currentAudioIndex == 5){
+                    if(currentAudioIndex == 3){
+                        audio.pause();
+                        four_five_pause = true;
+                    }
+                    else if(currentAudioIndex == 5){
                         currentAudioIndex = 3;
                         isRegression = true;
+                        playNextAudio();
                     }
                     else{
                         currentAudioIndex++;
+                        playNextAudio();
                     }
-                    playNextAudio();
+                    
                 });
 
                 // 다음 오디오 파일 재생
@@ -278,8 +285,17 @@
                 playButton.addEventListener('click', () => {
                     if (!isPlaying) {
                         playNextAudio();
-                    } else if (audio.paused) {
-                        audio.play(); // 일시정지된 오디오 다시 재생
+                    } 
+                    else if (audio.paused) {
+                        if(four_five_pause){
+                            currentAudioIndex = 4;
+                            four_five_pause = false;
+                            playNextAudio();
+                        }
+                        else{
+                            audio.play();  // 일시정지된 오디오 다시 재생
+                        }
+                        
                     }
                 });
 
