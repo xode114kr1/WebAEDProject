@@ -1,6 +1,7 @@
 let map;
 let customOverlay = null;
 let currentPolyline = null;
+let first_Polyline = null;
 
 function initializeMap() {
     const xmlDataUrl = 'https://apis.data.go.kr/6260000/BusanAedsService/getAedsList?serviceKey=X8s%2BvuX0%2F3WxkVikH1ZCFuWcowECbvxJ%2FTUSmNA3uHCkErHNm15tHPUXOyd7gxmDw1wIJEBisOCb%2B2XaNsAOCg%3D%3D&pageNo=1&numOfRows=1079';
@@ -47,47 +48,50 @@ function initializeMap() {
                             })
                         }
                     }
+                    if(closestAEDs.length == 0){
+                        alert("주변에 AED가 없습니다.");
+                    }
+                    else{
+                        closestAEDs.sort((a, b) => a.distance - b.distance);
+                        closestAEDs = closestAEDs.slice(0, 3);
 
-                    closestAEDs.sort((a, b) => a.distance - b.distance);
-                    closestAEDs = closestAEDs.slice(0, 3);
+                        closestAEDs.forEach(aed => {
+                            var imageSrc = "../media/AEDimage.png",
+                                imageSize = new kakao.maps.Size(74, 62),
+                                imageOption = { offset: new kakao.maps.Point(27, 69) };
+                            const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
-                    closestAEDs.forEach(aed => {
-                        var imageSrc = "../media/AEDimage.png",
-                            imageSize = new kakao.maps.Size(74, 62),
-                            imageOption = { offset: new kakao.maps.Point(27, 69) };
-                        const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-
-                        const aedMarker = new kakao.maps.Marker({
-                            position: aed.position,
-                            image: markerImage
-                        });
-                        aedMarker.setMap(map);
-
-                        kakao.maps.event.addListener(aedMarker, 'click', function () {
-                            map.panTo(aedMarker.getPosition());
-                            if (customOverlay) {
-                                customOverlay.setMap(null);
-                            }
-                            const content = `
-                                <div class="customoverlay">
-                                    <button class="closebtn" onclick="closeOverlay()">×</button>
-                                    <span class="title">
-                                        ${aed.address}<br> ${aed.tel}
-                                    </span>
-                                    <button onclick="toggleWalkingRoute(${userPosition.getLng()}, ${userPosition.getLat()}, ${aed.position.getLng()}, ${aed.position.getLat()})">길찾기</button>
-                                </div>
-                            `;
-
-                            customOverlay = new kakao.maps.CustomOverlay({
-                                content: content,
-                                map: map,
-                                position: aedMarker.getPosition(),
-                                yAnchor: 1.15
+                            const aedMarker = new kakao.maps.Marker({
+                                position: aed.position,
+                                image: markerImage
                             });
-                            customOverlay.setMap(map);
-                        });
-                    });
+                            aedMarker.setMap(map);
 
+                            kakao.maps.event.addListener(aedMarker, 'click', function () {
+                                map.panTo(aedMarker.getPosition());
+                                if (customOverlay) {
+                                    customOverlay.setMap(null);
+                                }
+                                const content = `
+                                    <div class="customoverlay">
+                                        <button class="closebtn" onclick="closeOverlay()">×</button>
+                                        <span class="title">
+                                            ${aed.address}<br> ${aed.tel}
+                                        </span>
+                                        <button onclick="toggleWalkingRoute(${userPosition.getLng()}, ${userPosition.getLat()}, ${aed.position.getLng()}, ${aed.position.getLat()})">길찾기</button>
+                                    </div>
+                                `;
+
+                                customOverlay = new kakao.maps.CustomOverlay({
+                                    content: content,
+                                    map: map,
+                                    position: aedMarker.getPosition(),
+                                    yAnchor: 1.15
+                                });
+                                customOverlay.setMap(map);
+                            });
+                        });
+                    }
                 })
                 .catch(error => {
                     console.error('XML 데이터 가져오는 중 오류 발생:', error);
@@ -184,7 +188,9 @@ function toggleWalkingRoute(startX, startY, endX, endY) {
     if (currentPolyline) {
         currentPolyline.setMap(null);
         currentPolyline = null;
-    } else {
+        drawWalkingRoute(startX, startY, endX, endY);
+    }
+    else{
         drawWalkingRoute(startX, startY, endX, endY);
     }
 }
