@@ -76,7 +76,7 @@ function initializeMap() {
                                     <div class="customoverlay">
                                         <button class="closebtn" onclick="closeOverlay()">×</button>
                                         <span class="title">
-                                            ${aed.address}<br> ${aed.tel}
+                                            ${aed.address}<br> Tel: ${aed.tel}
                                         </span>
                                         <button onclick="toggleWalkingRoute(${userPosition.getLng()}, ${userPosition.getLat()}, ${aed.position.getLng()}, ${aed.position.getLat()})">길찾기</button>
                                     </div>
@@ -143,14 +143,19 @@ function drawWalkingRoute(startX, startY, endX, endY) {
             "reqCoordType": "WGS84GEO",
             "resCoordType": "EPSG3857",
             "startName": "출발지",
-            "endName": "도착지"
+            "endName": "도착지",
+            "searchOption": 10
+
         },
         success: function (response) {
             var resultData = response.features;
             var points = [];
+            var totalDistance = 0;
+            var totalTimeInSeconds = 0;
 
             for (var i in resultData) {
                 var geometry = resultData[i].geometry;
+                var properties = resultData[i].properties;
 
                 if (geometry.type == "LineString") {
                     for (var j in geometry.coordinates) {
@@ -160,8 +165,22 @@ function drawWalkingRoute(startX, startY, endX, endY) {
                         points.push(latLng);
                     }
                 }
+
+                if(properties){
+                    totalDistance += properties.totalDistance ? properties.totalDistance : 0;
+                    totalTimeInSeconds += properties.totalTime ? properties.totalTime : 0;
+                }
             }
             drawLineOnMap(points);
+            closeOverlay();
+            totalDistance *= 2;
+            totalTimeInSeconds *= 2;
+
+            var minutes = Math.floor(totalTimeInSeconds / 60);
+            var seconds = totalTimeInSeconds % 60;
+            var totalTimeText = `${minutes}분 ${seconds}초`;
+
+            document.getElementById('routeInfo').innerHTML = `왕복 거리: ${(totalDistance / 1000).toFixed(2)} km<br>왕복 소요 시간: ${totalTimeText}`;
         },
         error: function (request, status, error) {
             console.log("Error:", error);
