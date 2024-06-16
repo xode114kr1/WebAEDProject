@@ -27,7 +27,7 @@ function initializeMap() {
                     const xmlDoc = parser.parseFromString(data, 'text/xml');
                     const items = xmlDoc.getElementsByTagName('item');
 
-                    const radius = 800;
+                    const radius = 300;
                     let closestAEDs = [];
 
                     for (let i = 0; i < items.length; i++) {
@@ -49,7 +49,7 @@ function initializeMap() {
                         }
                     }
                     if(closestAEDs.length == 0){
-                        alert("주변에 AED가 없습니다.");
+                        openModal();
                     }
                     else{
                         closestAEDs.sort((a, b) => a.distance - b.distance);
@@ -208,8 +208,24 @@ function toggleWalkingRoute(startX, startY, endX, endY) {
         currentPolyline.setMap(null);
         currentPolyline = null;
         drawWalkingRoute(startX, startY, endX, endY);
+        setRouteInfoPosition(endX, endY);
     }
     else{
         drawWalkingRoute(startX, startY, endX, endY);
     }
+}
+
+// Modal handling
+function openModal() {
+    document.getElementById('myModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('myModal').style.display = 'none';
+}
+
+function setRouteInfoPosition(x, y) {
+    const routeInfo = document.getElementById('routeInfo');
+    routeInfo.style.left = `${x}px`;
+    routeInfo.style.top = `${y}px`;
 }
