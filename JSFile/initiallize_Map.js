@@ -2,6 +2,7 @@ let map;
 let customOverlay = null;
 let currentPolyline = null;
 let first_Polyline = null;
+let closestAEDs = [];
 
 function initializeMap() {
     const xmlDataUrl = 'https://apis.data.go.kr/6260000/BusanAedsService/getAedsList?serviceKey=X8s%2BvuX0%2F3WxkVikH1ZCFuWcowECbvxJ%2FTUSmNA3uHCkErHNm15tHPUXOyd7gxmDw1wIJEBisOCb%2B2XaNsAOCg%3D%3D&pageNo=1&numOfRows=1079';
@@ -27,8 +28,7 @@ function initializeMap() {
                     const xmlDoc = parser.parseFromString(data, 'text/xml');
                     const items = xmlDoc.getElementsByTagName('item');
 
-                    const radius = 300;
-                    let closestAEDs = [];
+                    const radius = 1000;
 
                     for (let i = 0; i < items.length; i++) {
                         const addrs = items[i].getElementsByTagName('addrs')[0].textContent;
@@ -152,6 +152,8 @@ function drawWalkingRoute(startX, startY, endX, endY) {
             var points = [];
             var totalDistance = 0;
             var totalTimeInSeconds = 0;
+            var address = '';
+            var tel = '';
 
             for (var i in resultData) {
                 var geometry = resultData[i].geometry;
@@ -171,6 +173,11 @@ function drawWalkingRoute(startX, startY, endX, endY) {
                     totalTimeInSeconds += properties.totalTime ? properties.totalTime : 0;
                 }
             }
+            var aedInfo = closestAEDs.find(aed => aed.position.getLng() === endX && aed.position.getLat() === endY);
+            if (aedInfo) {
+                address = aedInfo.address;
+                tel = aedInfo.tel;
+            }
             drawLineOnMap(points);
             closeOverlay();
             totalDistance *= 2;
@@ -180,7 +187,7 @@ function drawWalkingRoute(startX, startY, endX, endY) {
             var seconds = totalTimeInSeconds % 60;
             var totalTimeText = `${minutes}분 ${seconds}초`;
 
-            document.getElementById('routeInfo').innerHTML = `왕복 거리: ${(totalDistance / 1000).toFixed(2)} km<br>왕복 소요 시간: ${totalTimeText}`;
+            updateRouteInfo(address, tel, totalDistance, totalTimeText);
         },
         error: function (request, status, error) {
             console.log("Error:", error);
@@ -214,6 +221,18 @@ function toggleWalkingRoute(startX, startY, endX, endY) {
         drawWalkingRoute(startX, startY, endX, endY);
     }
 }
+
+function updateRouteInfo(address, tel, distance, time) {
+    const routeInfo = document.getElementById('routeInfo');
+    routeInfo.innerHTML = `
+        <p>주소: ${address}</p>
+        <p>전화번호: ${tel}</p>
+        <p>왕복 거리: ${(distance / 1000).toFixed(2)} km</p>
+        <p>왕복 소요 시간: ${time}</p>
+    `;
+    document.getElementById('bottomBar').style.display = 'block';
+}
+
 
 // Modal handling
 function openModal() {
