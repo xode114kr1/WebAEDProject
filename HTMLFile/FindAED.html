@@ -140,6 +140,18 @@
             cursor: pointer;
             font-size: 14px;
         }
+        #bottomBar {
+            position: absolute;
+            bottom: 15%;
+            left: 0;
+            width: 80%;
+            background-color: white;
+            border-top: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none; /* 기본적으로 숨기기 */
+        }
     </style>
 </head>
 <body>
@@ -149,7 +161,9 @@
     <main>
         <button class="back-button" onclick="history.back()"><img src="../media/icon_back.png"></button>
         <div id="map"></div>
-        <div id="routeInfo" style="position: absolute; bottom: 10px; left: 10px; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.3);"></div>
+        <div id="bottomBar">
+            <div id="routeInfo" style="position: absolute; bottom: 10px; left: 10px; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.3);"></div>
+        </div>
     </main>
     <footer>
         <p>긴급 연락처: <a href='tel:119'>119</a> | 의료 긴급 상황: <a href='tel:1339'>1339</a></p>
