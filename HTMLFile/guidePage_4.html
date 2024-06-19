@@ -204,258 +204,238 @@
         </div>
 
         <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const pageOneButton = document.getElementById('pageOne');
-                const pageTwoButton = document.getElementById('pageTwo');
-                const pageThreeButton = document.getElementById('pageThree');
-                const pageFourButton = document.getElementById('pageFour');
-                const pageFiveButton = document.getElementById('pageFive');
+            document.addEventListener('DOMContentLoaded', () => { //여기에 작성된 코드들은 DOM이 완전히 로드된 후에 실행됩니다.
+            // 페이지 내비게이션 버튼 참조 가져오기
+            const pageOneButton = document.getElementById('pageOne');
+            const pageTwoButton = document.getElementById('pageTwo');
+            const pageThreeButton = document.getElementById('pageThree');
+            const pageFourButton = document.getElementById('pageFour');
+            const pageFiveButton = document.getElementById('pageFive');
 
-                const playButton = document.getElementById('play-button');
-                const pauseButton = document.getElementById('pause-button');
-                const prevCPRButton = document.getElementById('prevCPR-button');
-                const nextCPRButton = document.getElementById('nextCPR-button');
-                const showButton = document.getElementById('show-button');
-                const closeButton = document.getElementById('close-button');
-                const manual = document.getElementById('manual');
-                const subtitleDiv = document.getElementById('subtitle');
+            // 컨트롤 버튼 참조 가져오기
+            const playButton = document.getElementById('play-button');
+            const pauseButton = document.getElementById('pause-button');
+            const prevCPRButton = document.getElementById('prevCPR-button');
+            const nextCPRButton = document.getElementById('nextCPR-button');
+            const showButton = document.getElementById('show-button');
+            const closeButton = document.getElementById('close-button');
+            const manual = document.getElementById('manual');
+            const subtitleDiv = document.getElementById('subtitle');
 
-                const audioFiles = [
-                    '../media/CPR_Audio_1.mp3', 
-                    '../media/CPR_Audio_2.mp3',
-                    '../media/CPR_Audio_3.mp3',
-                    '../media/CPR_Audio_4.mp3',
-                    '../media/CPR_Audio_5.mp3',
-                    '../media/CPR_Audio_6.mp3',
-                ];
+            // 오디오 파일 목록
+            const audioFiles = [
+                '../media/CPR_Audio_1.mp3', 
+                '../media/CPR_Audio_2.mp3',
+                '../media/CPR_Audio_3.mp3',
+                '../media/CPR_Audio_4.mp3',
+                '../media/CPR_Audio_5.mp3',
+                '../media/CPR_Audio_6.mp3',
+            ];
 
-                const imageFiles = [
-                    '../media/CPR_guide1.png',
-                    '../media/CPR_guide2.png',
-                    '../media/CPR_guide2.png',
-                    '../media/CPR_guide3.png',
-                    '../media/CPR_guide3.png',
-                    '../media/CPR_guide4.png',
-                ];
+            // 이미지 파일 목록
+            const imageFiles = [
+                '../media/CPR_guide1.png',
+                '../media/CPR_guide2.png',
+                '../media/CPR_guide2.png',
+                '../media/CPR_guide3.png',
+                '../media/CPR_guide3.png',
+                '../media/CPR_guide4.png',
+            ];
 
-                const subtitleFiles = [
-                    '',
-                    '환자의 머리를 기울이고 턱을 올려서 기도를 열어줍니다',
-                    '약 10초간 호흡이 있는지 확인합니다.',
-                    '환자의 가슴뼈 아래쪽 지점을 손바닥 뒷꿈치로 신호에 따라 30회 압박합니다.',
-                    '압박을 시작합니다',
-                    '기도를 열고 보통의 호흡으로 2번, 1초간 숨을 불어 넣어줍니다. 이때 가슴이 올라오는것을 확인합니다.'
-                ];
+            // 자막 텍스트 목록
+            const subtitleFiles = [
+                '',
+                '환자의 머리를 기울이고 턱을 올려서 기도를 열어줍니다',
+                '약 10초간 호흡이 있는지 확인합니다.',
+                '환자의 가슴뼈 아래쪽 지점을 손바닥 뒷꿈치로 신호에 따라 30회 압박합니다.',
+                '압박을 시작합니다',
+                '기도를 열고 보통의 호흡으로 2번, 1초간 숨을 불어 넣어줍니다. 이때 가슴이 올라오는것을 확인합니다.'
+            ];
 
-                let currentAudioIndex = 0;
-                let audio = new Audio();
-                let isPlaying = false;
-                let isRegression = false;
-                let timeoutId = null;
-                let four_five_pause = false;
+            // 현재 오디오 인덱스
+            let currentAudioIndex = 0;
+            // 오디오 객체 생성
+            let audio = new Audio();
+            // 재생 상태 변수
+            let isPlaying = false;
+            // 회귀 상태 변수
+            let isRegression = false;
+            // 타임아웃 ID 변수
+            let timeoutId = null;
+            // 4-5 구간 일시정지 상태 변수
+            let four_five_pause = false;
 
-                // 오디오 재생 종료 시 다음 오디오 재생
-                audio.addEventListener('ended', function() {
-                    if(currentAudioIndex == 3){
-                        audio.pause();
-                        four_five_pause = true;
-                    }
-                    else if(currentAudioIndex == 5){
-                        currentAudioIndex = 4;
-                        isRegression = true;
-                        playNextAudio();
-                    }
-                    else{
-                        currentAudioIndex++;
-                        playNextAudio();
-                    }
-                    
-                });
-                
-                function clearButtonColor(num){
-                    if(num == -1){
-                        pageOneButton.style.backgroundColor = 'white';
-                        pageTwoButton.style.backgroundColor = 'white';
-                        pageThreeButton.style.backgroundColor = 'white';
-                        pageFourButton.style.backgroundColor = 'white';
-                        pageFiveButton.style.backgroundColor = 'white';
-                    }
-
-                    else if(num % 6 == 1){
-                        pageTwoButton.style.backgroundColor = 'white';
-                        pageThreeButton.style.backgroundColor = 'white';
-                        pageFourButton.style.backgroundColor = 'white';
-                        pageFiveButton.style.backgroundColor = 'white';
-                    }
-                    else if(num % 6 == 2){
-                        pageOneButton.style.backgroundColor = 'white';
-                        pageThreeButton.style.backgroundColor = 'white';
-                        pageFourButton.style.backgroundColor = 'white';
-                        pageFiveButton.style.backgroundColor = 'white';
-                    }
-                    else if(num % 6 == 3){
-                        pageOneButton.style.backgroundColor = 'white';
-                        pageTwoButton.style.backgroundColor = 'white';
-                        pageFourButton.style.backgroundColor = 'white';
-                        pageFiveButton.style.backgroundColor = 'white';
-                    }
-                    else if(num % 6 == 4){
-                        pageOneButton.style.backgroundColor = 'white';
-                        pageTwoButton.style.backgroundColor = 'white';
-                        pageThreeButton.style.backgroundColor = 'white';
-                        pageFiveButton.style.backgroundColor = 'white';
-                    }
-                    else if(num % 6 == 5){
-                        pageOneButton.style.backgroundColor = 'white';
-                        pageTwoButton.style.backgroundColor = 'white';
-                        pageThreeButton.style.backgroundColor = 'white';
-                        pageFourButton.style.backgroundColor = 'white';
-                    }
+            // 오디오 재생 종료 시 다음 오디오 재생
+            audio.addEventListener('ended', function() {
+                // 4번 오디오가 끝났을 때 일시정지
+                if(currentAudioIndex == 3){
+                    audio.pause();
+                    four_five_pause = true;
                 }
-
-                function setButtonColor(num){
-                    let list = [
-                        '',
-                        'pageOneButton',
-                        'pageTwoButton',
-                        'pageThreeButton',
-                        'pageFourButton',
-                        'pageFiveButton'
-                    ];
-                    if(num % 6 == 1){
-                        clearButtonColor(1);
-                        pageOneButton.style.backgroundColor = 'red';
-                    }
-                    if(num % 6 == 2){
-                        clearButtonColor(2);
-                        pageTwoButton.style.backgroundColor = 'red';
-                    }
-                    if(num % 6 == 3){
-                        clearButtonColor(3);
-                        pageThreeButton.style.backgroundColor = 'red';
-                    }
-                    if(num % 6 == 4){
-                        clearButtonColor(4);
-                        pageFourButton.style.backgroundColor = 'red';
-                    }
-                    if(num % 6 == 5){
-                        clearButtonColor(5);
-                        pageFiveButton.style.backgroundColor = 'red';
-                    }
-                }
-
-
-                // 다음 오디오 파일 재생
-                function playNextAudio() {
-                    if (currentAudioIndex < audioFiles.length) {
-                        setButtonColor(currentAudioIndex);
-                        audio.src = audioFiles[currentAudioIndex];
-                        image.src = imageFiles[currentAudioIndex];
-                        subtitleDiv.innerText = subtitleFiles[currentAudioIndex];
-                        audio.play();
-                        isPlaying = true;
-                    }
-                }
-
-                 // 창 열기 버튼 클릭 이벤트 리스너
-                showButton.addEventListener('click', () => {
-                    manual.classList.add('active');
-                    if (!isPlaying) {
-                        playNextAudio();
-                    }
-                });
-
-                // 창 닫기 버튼 클릭 이벤트 리스너
-                closeButton.addEventListener('click', () => { 
-                    clearButtonColor(-1);
-                    manual.classList.remove('active');
-                    if (isPlaying) {
-                        audio.pause();
-                        clearTimeout(timeoutId); // 대기 중인 타이머 취소
-                        isPlaying = false;
-                    }
-                    currentAudioIndex = 0;
-                    isRegression = false;
-                });
-
-                // 재생 버튼 클릭 이벤트 리스너
-                playButton.addEventListener('click', () => {
-                    if (!isPlaying) {
-                        playNextAudio();
-                    } 
-                    else if (audio.paused) {
-                        if(four_five_pause){
-                            currentAudioIndex = 4;
-                            four_five_pause = false;
-                            playNextAudio();
-                        }
-                        else{
-                            audio.play();  // 일시정지된 오디오 다시 재생
-                        }
-                        
-                    }
-                });
-
-                // 일시정지 버튼 클릭 이벤트 리스너
-                pauseButton.addEventListener('click', () => {
-                    if (isPlaying && !audio.paused) {
-                        audio.pause(); // 오디오 일시정지
-                    }
-                });
-
-                // 다음 버튼 클릭 이벤트 리스너
-                // nextCPRButton.addEventListener('click', () => {
-                //     audio.pause();
-                //     if(currentAudioIndex == 5){
-                //         currentAudioIndex = 3;
-                //         isRegression = true;
-                //     }
-                //     else{
-                //         currentAudioIndex++;
-                //     }
-                //     playNextAudio();
-                // });
-
-                // 이전 버튼 클릭 이벤트 리스너
-                // prevCPRButton.addEventListener('click', () => {
-                //     audio.pause();
-                //     if(isRegression == true && currentAudioIndex == 3){
-                //         currentAudioIndex = 5;
-                //     }
-                //     else if(currentAudioIndex > 0){
-                //         currentAudioIndex--;
-                //     }
-
-                //     playNextAudio();
-                // });
-
-                pageOneButton.addEventListener('click', () => {
-                    audio.pause();
-                    currentAudioIndex = 1;
-                    playNextAudio();
-                });
-                pageTwoButton.addEventListener('click', () => {
-                    audio.pause();
-                    currentAudioIndex = 2;
-                    playNextAudio();
-                });
-                pageThreeButton.addEventListener('click', () => {
-                    audio.pause();
-                    currentAudioIndex = 3;
-                    playNextAudio();
-                });
-                pageFourButton.addEventListener('click', () => {
-                    audio.pause();
+                // 6번 오디오가 끝났을 때 5번으로 회귀
+                else if(currentAudioIndex == 5){
                     currentAudioIndex = 4;
+                    isRegression = true;
                     playNextAudio();
-                });
-                pageFiveButton.addEventListener('click', () => {
-                    audio.pause();
-                    currentAudioIndex = 5;
+                }
+                // 나머지 경우 다음 오디오로 넘어감
+                else{
+                    currentAudioIndex++;
                     playNextAudio();
-                });
-
+                }
             });
+            
+            // 버튼 색상을 초기화하는 함수
+            function clearButtonColor(num){
+                if(num == -1){
+                    pageOneButton.style.backgroundColor = 'white';
+                    pageTwoButton.style.backgroundColor = 'white';
+                    pageThreeButton.style.backgroundColor = 'white';
+                    pageFourButton.style.backgroundColor = 'white';
+                    pageFiveButton.style.backgroundColor = 'white';
+                } else if(num % 6 == 1){
+                    pageTwoButton.style.backgroundColor = 'white';
+                    pageThreeButton.style.backgroundColor = 'white';
+                    pageFourButton.style.backgroundColor = 'white';
+                    pageFiveButton.style.backgroundColor = 'white';
+                } else if(num % 6 == 2){
+                    pageOneButton.style.backgroundColor = 'white';
+                    pageThreeButton.style.backgroundColor = 'white';
+                    pageFourButton.style.backgroundColor = 'white';
+                    pageFiveButton.style.backgroundColor = 'white';
+                } else if(num % 6 == 3){
+                    pageOneButton.style.backgroundColor = 'white';
+                    pageTwoButton.style.backgroundColor = 'white';
+                    pageFourButton.style.backgroundColor = 'white';
+                    pageFiveButton.style.backgroundColor = 'white';
+                } else if(num % 6 == 4){
+                    pageOneButton.style.backgroundColor = 'white';
+                    pageTwoButton.style.backgroundColor = 'white';
+                    pageThreeButton.style.backgroundColor = 'white';
+                    pageFiveButton.style.backgroundColor = 'white';
+                } else if(num % 6 == 5){
+                    pageOneButton.style.backgroundColor = 'white';
+                    pageTwoButton.style.backgroundColor = 'white';
+                    pageThreeButton.style.backgroundColor = 'white';
+                    pageFourButton.style.backgroundColor = 'white';
+                }
+            }
+
+            // 버튼 색상을 설정하는 함수
+            function setButtonColor(num){
+                let list = [
+                    '',
+                    'pageOneButton',
+                    'pageTwoButton',
+                    'pageThreeButton',
+                    'pageFourButton',
+                    'pageFiveButton'
+                ];
+                if(num % 6 == 1){
+                    clearButtonColor(1);
+                    pageOneButton.style.backgroundColor = 'red';
+                }
+                if(num % 6 == 2){
+                    clearButtonColor(2);
+                    pageTwoButton.style.backgroundColor = 'red';
+                }
+                if(num % 6 == 3){
+                    clearButtonColor(3);
+                    pageThreeButton.style.backgroundColor = 'red';
+                }
+                if(num % 6 == 4){
+                    clearButtonColor(4);
+                    pageFourButton.style.backgroundColor = 'red';
+                }
+                if(num % 6 == 5){
+                    clearButtonColor(5);
+                    pageFiveButton.style.backgroundColor = 'red';
+                }
+            }
+
+            // 다음 오디오 파일 재생 함수
+            function playNextAudio() {
+                if (currentAudioIndex < audioFiles.length) {
+                    setButtonColor(currentAudioIndex);
+                    audio.src = audioFiles[currentAudioIndex];
+                    image.src = imageFiles[currentAudioIndex];
+                    subtitleDiv.innerText = subtitleFiles[currentAudioIndex];
+                    audio.play();
+                    isPlaying = true;
+                }
+            }
+
+            // 창 열기 버튼 클릭 이벤트 리스너
+            showButton.addEventListener('click', () => {
+                manual.classList.add('active');
+                if (!isPlaying) {
+                    playNextAudio();
+                }
+            });
+
+            // 창 닫기 버튼 클릭 이벤트 리스너
+            closeButton.addEventListener('click', () => { 
+                clearButtonColor(-1);
+                manual.classList.remove('active');
+                if (isPlaying) {
+                    audio.pause();
+                    clearTimeout(timeoutId); // 대기 중인 타이머 취소
+                    isPlaying = false;
+                }
+                currentAudioIndex = 0;
+                isRegression = false;
+            });
+
+            // 재생 버튼 클릭 이벤트 리스너
+            playButton.addEventListener('click', () => {
+                if (!isPlaying) {
+                    playNextAudio();
+                } else if (audio.paused) {
+                    if(four_five_pause){
+                        currentAudioIndex = 4;
+                        four_five_pause = false;
+                        playNextAudio();
+                    } else {
+                        audio.play();  // 일시정지된 오디오 다시 재생
+                    }
+                }
+            });
+
+            // 일시정지 버튼 클릭 이벤트 리스너
+            pauseButton.addEventListener('click', () => {
+                if (isPlaying && !audio.paused) {
+                    audio.pause(); // 오디오 일시정지
+                }
+            });
+
+            // 페이지 버튼 클릭 이벤트 리스너 설정
+            pageOneButton.addEventListener('click', () => {
+                audio.pause();
+                currentAudioIndex = 1;
+                playNextAudio();
+            });
+            pageTwoButton.addEventListener('click', () => {
+                audio.pause();
+                currentAudioIndex = 2;
+                playNextAudio();
+            });
+            pageThreeButton.addEventListener('click', () => {
+                audio.pause();
+                currentAudioIndex = 3;
+                playNextAudio();
+            });
+            pageFourButton.addEventListener('click', () => {
+                audio.pause();
+                currentAudioIndex = 4;
+                playNextAudio();
+            });
+            pageFiveButton.addEventListener('click', () => {
+                audio.pause();
+                currentAudioIndex = 5;
+                playNextAudio();
+            });
+        });
+
         </script>
     </body>
 </html>
