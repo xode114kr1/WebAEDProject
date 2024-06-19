@@ -116,12 +116,22 @@
                 font-size: 30px;
             }
 
-            .manualFooter1 button:hover{
-                background-color: aqua;
+            @media (hover:none) and (pointer:coarse) {
+                .manualFooter1 button:active {
+                    background-color: aqua;
+                }
+                .manualFooter2 button:active {
+                    background-color: aqua;
+                }
             }
 
-            .manualFooter2 button:hover{
-                background-color: aqua;
+            @media (hover:hover) and (pointer:fine) {
+                .manualFooter1 button:hover {
+                    background-color: aqua;
+                }
+                .manualFooter2 button:hover {
+                    background-color: aqua;
+                }
             }
         </style>
     </head>
