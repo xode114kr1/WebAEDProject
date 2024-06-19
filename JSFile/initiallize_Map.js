@@ -18,7 +18,11 @@ function initializeMap() {
         .then(userPosition => {
             userPosition = new kakao.maps.LatLng(userPosition.lat, userPosition.lng);
             map.setCenter(userPosition);
-            var userMarker = new kakao.maps.Marker({ position: userPosition });
+            var imageSrc = "../media/myLocaMarker.png",
+                imageSize = new kakao.maps.Size(55, 46),
+                imageOption = { offset: new kakao.maps.Point(27.5, 46) };
+            const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+            var userMarker = new kakao.maps.Marker({ position: userPosition, image: markerImage });
             userMarker.setMap(map);
 
             fetch(xmlDataUrl)
@@ -58,7 +62,7 @@ function initializeMap() {
                         closestAEDs.forEach(aed => {
                             var imageSrc = "../media/AEDimage.png",
                                 imageSize = new kakao.maps.Size(74, 62),
-                                imageOption = { offset: new kakao.maps.Point(27, 69) };
+                                imageOption = { offset: new kakao.maps.Point(37, 62) };
                             const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
                             const aedMarker = new kakao.maps.Marker({
