@@ -230,7 +230,7 @@ function updateRouteInfo(address, tel, distance, time) {
         <p>왕복 거리: ${(distance / 1000).toFixed(2)} km</p>
         <p>왕복 소요 시간: ${time}</p>
     `;
-    document.getElementById('bottomBar').style.display = 'block';
+   // document.getElementById('bottomBar').style.display = 'block';
 }
 
 
@@ -245,6 +245,7 @@ function closeModal() {
 
 function setRouteInfoPosition(x, y) {
     const routeInfo = document.getElementById('routeInfo');
-    routeInfo.style.left = `${x}px`;
-    routeInfo.style.top = `${y}px`;
+    routeInfo.style.left = `0px`;
+    routeInfo.style.bottom = `5%`;
+    routeInfo.style.zIndex = '1000';
 }

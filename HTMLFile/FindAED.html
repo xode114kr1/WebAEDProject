@@ -149,8 +149,14 @@
             border-top: 1px solid #ccc;
             padding: 10px;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
+            z-index: 0;
             display: none; /* 기본적으로 숨기기 */
+        }
+        
+        #routeInfo{
+            padding: 0px 20px;
+            background: white; 
+            border-radius: 5px; 
         }
     </style>
 </head>
@@ -161,8 +167,8 @@
     <main>
         <button class="back-button" onclick="history.back()"><img src="../media/icon_back.png"></button>
         <div id="map"></div>
-        <div id="bottomBar">
-            <div id="routeInfo" style="position: absolute; bottom: 10px; left: 10px; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.3);"></div>
+        <!-- <div id="bottomBar"> -->
+            <div id="routeInfo"></div>
         </div>
     </main>
     <footer>
