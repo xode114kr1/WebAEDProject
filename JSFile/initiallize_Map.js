@@ -23,6 +23,7 @@ function initializeMap() {
                 imageOption = { offset: new kakao.maps.Point(27.5, 46) };//이미지 속성 정의
             const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
             var userMarker = new kakao.maps.Marker({ position: userPosition, image: markerImage }); // 이미지 속성을 지닌 지역변수            userMarker.setMap(map); //
+            userMarker.setMap(map);
 
             fetch(xmlDataUrl)
                 .then(response => response.text())
@@ -263,6 +264,5 @@ function setRouteInfoPosition() {
 }
 
 function closeRouteInfoPosition(){
-    console.log('asd');
     routeInfo.style.display = 'none';
 }
