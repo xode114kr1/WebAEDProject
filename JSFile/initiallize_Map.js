@@ -236,7 +236,7 @@ function toggleWalkingRoute(startX, startY, endX, endY) {
 function updateRouteInfo(address, tel, distance, time) {
     const routeInfo = document.getElementById('routeInfo');
     routeInfo.innerHTML = `
-        <button onclick="closeRouteInfoPosition()" style="position: relative; left : 95%; top: 5%">닫기</button>
+        <button onclick="closeRouteInfoPosition()" style="position: relative; left : 95%; top: 5%; width : 10px; height : 5px">닫기</button>
         <p>주소: ${address}</p>
         <p>전화번호: ${tel}</p>
         <p>왕복 거리: ${(distance / 1000).toFixed(2)} km</p>
