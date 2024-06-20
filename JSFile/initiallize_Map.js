@@ -31,7 +31,7 @@ function initializeMap() {
                     const xmlDoc = parser.parseFromString(data, 'text/xml');
                     const items = xmlDoc.getElementsByTagName('item');
 
-                    const radius = 3000; //반경 300m이내로 찾기
+                    const radius = 300; //반경 300m이내로 찾기
 
                     for (let i = 0; i < items.length; i++) {
                         const addrs = items[i].getElementsByTagName('addrs')[0].textContent;
