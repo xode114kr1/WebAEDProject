@@ -206,7 +206,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => { //여기에 작성된 코드들은 DOM이 완전히 로드된 후에 실행됩니다.
             // 페이지 내비게이션 버튼 참조 가져오기
-            const pageOneButton = document.getElementById('pageOne');
+            const pageOneButton = document.getElementById('pageOne'); 
             const pageTwoButton = document.getElementById('pageTwo');
             const pageThreeButton = document.getElementById('pageThree');
             const pageFourButton = document.getElementById('pageFour');
@@ -258,8 +258,6 @@
             let audio = new Audio();
             // 재생 상태 변수
             let isPlaying = false;
-            // 회귀 상태 변수
-            let isRegression = false;
             // 타임아웃 ID 변수
             let timeoutId = null;
             // 4-5 구간 일시정지 상태 변수
@@ -275,7 +273,6 @@
                 // 6번 오디오가 끝났을 때 5번으로 회귀
                 else if(currentAudioIndex == 5){
                     currentAudioIndex = 4;
-                    isRegression = true;
                     playNextAudio();
                 }
                 // 나머지 경우 다음 오디오로 넘어감
@@ -383,7 +380,6 @@
                     isPlaying = false;
                 }
                 currentAudioIndex = 0;
-                isRegression = false;
             });
 
             // 재생 버튼 클릭 이벤트 리스너
@@ -430,11 +426,11 @@
                 playNextAudio();
             });
             pageFiveButton.addEventListener('click', () => {
-                audio.pause();
-                currentAudioIndex = 5;
-                playNextAudio();
+                    audio.pause();
+                    currentAudioIndex = 5;
+                    playNextAudio();
+                });
             });
-        });
 
         </script>
     </body>
