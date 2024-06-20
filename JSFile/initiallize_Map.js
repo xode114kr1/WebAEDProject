@@ -31,7 +31,7 @@ function initializeMap() {
                     const xmlDoc = parser.parseFromString(data, 'text/xml');
                     const items = xmlDoc.getElementsByTagName('item');
 
-                    const radius = 300; //반경 300m이내로 찾기
+                    const radius = 3000; //반경 300m이내로 찾기
 
                     for (let i = 0; i < items.length; i++) {
                         const addrs = items[i].getElementsByTagName('addrs')[0].textContent;
@@ -236,7 +236,7 @@ function toggleWalkingRoute(startX, startY, endX, endY) {
 function updateRouteInfo(address, tel, distance, time) {
     const routeInfo = document.getElementById('routeInfo');
     routeInfo.innerHTML = `
-        <button onclick="closeRouteInfoPosition()" style="position: relative; left : 95%; top: 5%; width : 10px; height : 5px">닫기</button>
+        <button onclick="closeRouteInfoPosition()" style="position: relative; left : 90%; top: 5%; width : 50px; height : 30px; border-radius: 5px;">닫기</button>
         <p>주소: ${address}</p>
         <p>전화번호: ${tel}</p>
         <p>왕복 거리: ${(distance / 1000).toFixed(2)} km</p>
