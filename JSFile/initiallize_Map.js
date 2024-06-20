@@ -31,7 +31,7 @@ function initializeMap() {
                     const xmlDoc = parser.parseFromString(data, 'text/xml');
                     const items = xmlDoc.getElementsByTagName('item');
 
-                    const radius = 300; //반경 300m이내로 찾기
+                    const radius = 3000; //반경 300m이내로 찾기
 
                     for (let i = 0; i < items.length; i++) {
                         const addrs = items[i].getElementsByTagName('addrs')[0].textContent;
@@ -222,10 +222,12 @@ function toggleWalkingRoute(startX, startY, endX, endY) {
     if (currentPolyline) {
         currentPolyline.setMap(null);
         currentPolyline = null;
+        setRouteInfoPosition();
         drawWalkingRoute(startX, startY, endX, endY);
-        setRouteInfoPosition(endX, endY);
+        
     }
     else{
+        setRouteInfoPosition();
         drawWalkingRoute(startX, startY, endX, endY);
     }
 }
@@ -234,6 +236,7 @@ function toggleWalkingRoute(startX, startY, endX, endY) {
 function updateRouteInfo(address, tel, distance, time) {
     const routeInfo = document.getElementById('routeInfo');
     routeInfo.innerHTML = `
+        <button onclick="closeRouteInfoPosition()" style="position: relative; left : 95%; top: 5%">닫기</button>
         <p>주소: ${address}</p>
         <p>전화번호: ${tel}</p>
         <p>왕복 거리: ${(distance / 1000).toFixed(2)} km</p>
@@ -251,9 +254,15 @@ function closeModal() {
     document.getElementById('myModal').style.display = 'none';
 }
 
-function setRouteInfoPosition(x, y) {
+function setRouteInfoPosition() {
     const routeInfo = document.getElementById('routeInfo');
     routeInfo.style.left = `0px`;
     routeInfo.style.bottom = `5%`;
     routeInfo.style.zIndex = '1000';
+    routeInfo.style.display = 'block';
+}
+
+function closeRouteInfoPosition(){
+    console.log('asd');
+    routeInfo.style.display = 'none';
 }
